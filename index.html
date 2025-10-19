@@ -20,20 +20,14 @@
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;scroll-behavior:smooth}
-    body{
-      font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
-      background:var(--bg);
-      color:var(--text);
-      overflow-x:hidden;
-    }
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text);overflow-x:hidden;}
 
     /* Particles Layer */
-    .particles-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#04050a;}
+    .particles-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:var(--bg);}
     canvas{display:block}
 
     /* Container & Layout */
     .container{position:relative;z-index:2;max-width:960px;margin:48px auto;padding:36px;border-radius:14px;background:var(--panel);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04);box-shadow:0 30px 80px rgba(0,0,0,0.7);}
-
     header{text-align:center;margin-bottom:28px}
     header h1{font-size:32px;font-weight:700;color:var(--accent-2);margin-bottom:8px;letter-spacing:1px}
     header p.lead{font-size:16px;color:var(--muted);line-height:1.6}
@@ -41,15 +35,28 @@
     .grid{display:grid;grid-template-columns:1fr 360px;gap:28px}
     @media(max-width:880px){.grid{grid-template-columns:1fr}}
 
-    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:24px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);transition:all 0.6s ease, transform 0.6s ease;opacity:0;transform:translateY(40px)}
-    .card.visible{opacity:1;transform:translateY(0)}
+    /* Cards with hover animation */
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+      padding:24px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition:all 0.6s ease, transform 0.6s ease, box-shadow 0.4s ease;
+      opacity:0;
+      transform:translateY(40px);
+    }
+    .card.visible{opacity:1;transform:translateY(0);}
+    .card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 35px 80px rgba(0,0,0,0.75);
+    }
 
     h2{font-size:20px;font-weight:600;color:var(--accent-2);margin:20px 0 10px;letter-spacing:0.5px}
     h3{font-size:16px;font-weight:500;margin:10px 0;color:var(--accent);letter-spacing:0.5px}
     ul{margin:6px 0 0 20px; padding:0; list-style:none}
     li{margin:6px 0;color:var(--text);line-height:1.45;position:relative;padding-left:14px;transition:all 0.2s ease}
     li:hover{color:var(--accent)}
-    li::before{content:'\2022';position:absolute;left:0;color:var(--accent-2);font-weight:bold}
+    li::before{content:'\\2022';position:absolute;left:0;color:var(--accent-2);font-weight:bold}
     .muted{color:var(--muted);font-size:14px}
 
     .policy-box{background:var(--policy-bg);padding:16px 18px;border-radius:10px;font-size:13px;line-height:1.5;color:var(--muted);margin-top:12px}
@@ -179,12 +186,9 @@
     // Scroll reveal animation
     const observer = new IntersectionObserver(entries=>{
       entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('visible');
-        }
+        if(entry.isIntersecting){ entry.target.classList.add('visible'); }
       });
     },{threshold:0.2});
-
     document.querySelectorAll('[data-animate]').forEach(el=>observer.observe(el));
   </script>
 </body>
