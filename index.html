@@ -6,7 +6,7 @@
   <title>DaisyDreams Store — Support the Server</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#04050a;
@@ -15,6 +15,7 @@
       --accent-2:#f1c40f;
       --muted:#9caaba;
       --text:#e7edf2;
+      --policy-bg:rgba(255,255,255,0.04);
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0}
@@ -46,28 +47,34 @@
     }
 
     .container{position:relative;z-index:2;max-width:920px;margin:48px auto;padding:34px;border-radius:14px;background:var(--panel);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04);box-shadow:0 30px 80px rgba(0,0,0,0.7)}
-    header{text-align:center;margin-bottom:14px}
-    h1{font-family:'Press Start 2P',monospace;color:var(--accent);font-size:20px;margin:4px 0}
-    p.lead{color:var(--muted);margin:6px 0}
+    header{text-align:center;margin-bottom:20px}
+    header h1{font-size:28px;font-weight:700;color:var(--accent);margin-bottom:6px}
+    header p.lead{font-size:16px;color:var(--muted);line-height:1.5}
 
-    .grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:24px}
     @media(max-width:880px){.grid{grid-template-columns:1fr}}
 
-    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:18px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
-    h2{font-family:'Press Start 2P',monospace;color:var(--accent);font-size:12px;margin:8px 0}
-    ul{margin:8px 0 0 18px;padding:0}
-    li{margin:8px 0;color:var(--text)}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    h2{font-size:18px;font-weight:600;color:var(--accent-2);margin:16px 0 8px}
+    h3{font-size:15px;font-weight:500;margin:8px 0;color:var(--accent);letter-spacing:0.5px}
+    ul{margin:6px 0 0 18px;padding:0}
+    li{margin:6px 0;color:var(--text);line-height:1.45;position:relative;padding-left:12px}
+    li::before{content:'\2022';position:absolute;left:0;color:var(--accent-2);font-weight:bold}
     .muted{color:var(--muted);font-size:14px}
 
-    .qr-wrap{text-align:center;margin-top:12px}
+    .policy-box{background:var(--policy-bg);padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.45;color:var(--muted);margin-top:12px}
+    .policy-header{margin-top:28px;margin-bottom:10px;font-size:17px;font-weight:600;color:var(--accent-2)}
+
+    .qr-wrap{text-align:center;margin-top:16px}
     .qr-img{width:260px;height:auto;margin:0 auto;border-radius:10px;overflow:hidden;border:3px solid rgba(255,255,255,0.04);box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer;display:block}
     .qr-img img{width:100%;height:auto;display:block}
 
     .cta{display:flex;gap:8px;margin-top:12px}
-    .btn{flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),#1f8e4f);color:#04270f;font-weight:700;cursor:pointer}
+    .btn{flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),#1f8e4f);color:#04270f;font-weight:700;cursor:pointer;transition:all 0.2s ease}
+    .btn:hover{transform:translateY(-2px)}
     .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
 
-    footer{margin-top:14px;text-align:center;color:var(--muted);font-size:13px}
+    footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
 
     .popup-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,11,0.78);visibility:hidden;opacity:0;transition:opacity .35s ease,visibility .35s ease;z-index:80}
     .popup-overlay.active{visibility:visible;opacity:1}
@@ -86,52 +93,52 @@
   <main class="container" id="mainContent">
     <header>
       <h1>DaisyDreams Store</h1>
-      <p class="lead">Support the server & unlock exclusive perks - after payment, open a ticket in Discord for verification.</p>
+      <p class="lead">Support the server and unlock exclusive perks. After payment, open a ticket in Discord for verification.</p>
     </header>
 
     <section class="grid">
       <div class="card">
-        <h2>💳 Payment Methods</h2>
-        <p class="muted">We accept the following:</p>
+        <h2>Payment Methods</h2>
+        <p class="muted">Available options for your convenience:</p>
         <ul>
-          <li>✅ Touch ‘n Go</li>
-          <li>✅ Shopee Pay</li>
-          <li>✅ QR Pay</li>
-          <li>✅ Wise* (open ticket for details)</li>
-          <li>✅ PayPal* (open ticket for details)</li>
+          <li>Touch ‘n Go</li>
+          <li>Shopee Pay</li>
+          <li>QR Pay</li>
+          <li>Wise* (open ticket for details)</li>
+          <li>PayPal* (open ticket for details)</li>
         </ul>
 
-        <h2 style="margin-top:18px">🎁 Available Products</h2>
-        <h3 style="font-family:Inter, sans-serif;margin:8px 0;color:var(--accent-2)">Ranks (1 Month)</h3>
+        <h2>Available Products</h2>
+        <h3>Ranks (1 Month)</h3>
         <ul>
-          <li>🏰 Knight – RM15</li>
-          <li>⚔️ Lord – RM25</li>
-          <li>🛡️ Paladin – RM35</li>
-          <li>🎩 Duke – RM45</li>
-          <li>👑 King – RM55</li>
+          <li>Knight – RM15</li>
+          <li>Lord – RM25</li>
+          <li>Paladin – RM35</li>
+          <li>Duke – RM45</li>
+          <li>King – RM55</li>
         </ul>
-        
-        <h3 style="font-family:Inter, sans-serif;margin-top:12px;color:var(--accent-2)">Other Perks</h3>
+
+        <h3>Other Perks</h3>
         <ul>
-          <li>🕊️ Permanent Fly Anywhere – RM100</li>
-          <li>🎟️ Battlepass (5 Weeks) – RM25</li>
-          <li>💰 2000 Coins – RM15</li>
-          <li>🔑 x40 Common Key – RM15</li>
-          <li>🔑 x20 Rare Key – RM15</li>
-          <li>🔑 x12 Epic Key – <strong>RM12 (Discount)</strong></li>
-          <li>🔑 x2 Spawner Key – RM12</li>
+          <li>Permanent Fly Anywhere – RM100</li>
+          <li>Battlepass (5 Weeks) – RM25</li>
+          <li>2000 Coins – RM15</li>
+          <li>x40 Common Key – RM15</li>
+          <li>x20 Rare Key – RM15</li>
+          <li>x12 Epic Key – RM12 (Discount)</li>
+          <li>x2 Spawner Key – RM12</li>
         </ul>
-       
-        <h2 style="margin-top:18px">📜 Purchase Policy</h2>
-        <ul>
-          <li>All purchases are final and non-refundable</li>
-          <li>Once an order is placed, no cancellations, refunds, or changes will be accepted</li>
-          <li>This policy applies to all services, products, and transactions with DaisyDreams</li>
-        </ul>
+
+        <h2 class="policy-header">Purchase Policy</h2>
+        <div class="policy-box">
+          <p>All purchases are final and non-refundable</p>
+          <p>Once an order is placed, no cancellations, refunds, or changes will be accepted</p>
+          <p>This policy applies to all services, products, and transactions with DaisyDreams</p>
+        </div>
       </div>
 
       <aside class="card">
-        <h2>📱 QR Payment</h2>
+        <h2>QR Payment</h2>
         <p class="muted">Scan the QR below to pay. After payment, open a ticket in Discord for verification: <a href="https://discord.gg/daisydreams" target="_blank">discord.gg/daisydreams</a></p>
         <div class="qr-wrap">
           <div class="qr-img" id="qrImg">
