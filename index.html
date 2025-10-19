@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DaisyDreams Store — Support the Server</title>
+<title>DaisyDreams Store — Interactive</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -16,118 +16,162 @@
   --policy-bg:rgba(255,255,255,0.04);
 }
 *{box-sizing:border-box;}
-body, html{margin:0; padding:0; font-family:Inter, sans-serif; background:var(--bg); color:var(--text); scroll-behavior:smooth;}
+body,html{margin:0;padding:0;font-family:Inter,sans-serif;background:var(--bg);color:var(--text);scroll-behavior:smooth;overflow-x:hidden;}
 a{color:inherit;text-decoration:none;}
-.container{max-width:960px; margin:50px auto; padding:30px; background:var(--panel); border-radius:12px; backdrop-filter:blur(6px);}
-header{text-align:center; margin-bottom:30px;}
-header h1{color:var(--accent-2); font-size:32px; margin-bottom:6px;}
-header p{color:var(--muted); font-size:16px;}
-.grid{display:grid; grid-template-columns:1fr 360px; gap:24px;}
+.container{max-width:960px;margin:50px auto;padding:30px;background:var(--panel);border-radius:12px;backdrop-filter:blur(6px);position:relative;z-index:2;}
+header{text-align:center;margin-bottom:30px;}
+header h1{color:var(--accent-2);font-size:32px;margin-bottom:6px;}
+header p{color:var(--muted);font-size:16px;}
+.grid{display:grid;grid-template-columns:1fr 360px;gap:24px;}
 @media(max-width:880px){.grid{grid-template-columns:1fr;}}
-.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); transition:all 0.4s ease, transform 0.4s ease; opacity:0; transform:translateY(30px);}
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  padding:24px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+  transition:all 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+  opacity:0; transform:translateY(30px);
+}
 .card.visible{opacity:1; transform:translateY(0);}
-.card:hover{transform:translateY(-6px); box-shadow:0 25px 60px rgba(0,0,0,0.6);}
+.card:hover{transform:translateY(-8px); box-shadow:0 35px 80px rgba(0,0,0,0.7); border:1px solid var(--accent-2);}
 h2{color:var(--accent-2); margin:18px 0 10px; font-size:20px;}
 h3{color:var(--accent); margin:10px 0; font-size:16px;}
 ul{list-style:none; padding-left:20px; margin:0;}
-li{position:relative; padding-left:16px; margin:6px 0;}
+li{position:relative; padding-left:16px; margin:6px 0; transition:color 0.3s;}
 li::before{content:'\2022'; position:absolute; left:0; color:var(--accent-2);}
-.policy-box{background:var(--policy-bg); padding:14px 16px; border-radius:10px; font-size:13px; line-height:1.5; color:var(--muted);}
-.qr-wrap{text-align:center; margin-top:18px;}
-.qr-img{width:280px; margin:0 auto; cursor:pointer; border-radius:10px; overflow:hidden; border:2px solid rgba(255,255,255,0.05); transition:all 0.3s ease;}
-.qr-img img{width:100%; height:auto; display:block;}
-.qr-img:hover{transform:scale(1.05);}
-.btn{width:100%; margin-top:12px; padding:12px; border-radius:10px; border:none; background:linear-gradient(180deg,var(--accent),#1f8e4f); color:#04270f; font-weight:600; cursor:pointer; transition:all 0.25s ease;}
-.btn:hover{transform:translateY(-2px) scale(1.02);}
-footer{text-align:center; color:var(--muted); font-size:13px; margin-top:14px;}
-.popup-overlay{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.8); visibility:hidden; opacity:0; transition:opacity .3s ease, visibility .3s ease; z-index:50;}
-.popup-overlay.active{visibility:visible; opacity:1;}
-.popup-img{max-width:80vw; max-height:80vh; border-radius:8px;}
+li:hover{color:var(--accent); text-shadow:0 0 6px var(--accent);}
+.policy-box{background:var(--policy-bg);padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.5;color:var(--muted);}
+.policy-header{margin-top:28px;margin-bottom:10px;font-size:18px;font-weight:600;color:var(--accent-2);}
+.qr-wrap{text-align:center;margin-top:18px;}
+.qr-img{width:280px;margin:0 auto;border-radius:10px;overflow:hidden;cursor:pointer;border:2px solid rgba(255,255,255,0.05);transition:all 0.3s ease;}
+.qr-img img{width:100%;display:block;transition:all 0.3s ease;}
+.qr-img:hover{transform:scale(1.05);box-shadow:0 20px 60px rgba(46,204,113,0.5);}
+.btn{width:100%;margin-top:12px;padding:12px;border-radius:10px;border:none;background:linear-gradient(270deg,var(--accent),#1f8e4f);color:#04270f;font-weight:600;cursor:pointer;transition:all 0.3s ease;background-size:200% 200%;}
+.btn:hover{background-position:100% 0;transform:translateY(-2px) scale(1.02);box-shadow:0 12px 28px rgba(0,0,0,0.5);}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:14px;}
+.popup-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);visibility:hidden;opacity:0;transition:opacity .3s ease, visibility .3s ease;z-index:50;}
+.popup-overlay.active{visibility:visible;opacity:1;}
+.popup-img{max-width:80vw;max-height:80vh;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,0.6);}
 canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 </style>
 </head>
 <body>
+
 <canvas id="particlesCanvas"></canvas>
-
 <main class="container">
-  <header>
-    <h1>DaisyDreams Store</h1>
-    <p>Support the server and unlock exclusive perks. After payment, open a ticket in Discord for verification.</p>
-  </header>
-  <section class="grid">
-    <div class="card" data-animate>
-      <h2>Payment Methods</h2>
-      <ul>
-        <li>Touch ‘n Go</li>
-        <li>Shopee Pay</li>
-        <li>QR Pay</li>
-        <li>Wise* (open ticket)</li>
-        <li>PayPal* (open ticket)</li>
-      </ul>
+<header>
+<h1>DaisyDreams Store</h1>
+<p>Support the server and unlock exclusive perks. After payment, open a ticket in Discord for verification.</p>
+</header>
 
-      <h2>Available Products</h2>
-      <h3>Ranks (1 Month)</h3>
-      <ul>
-        <li>Knight – RM15</li>
-        <li>Lord – RM25</li>
-        <li>Paladin – RM35</li>
-        <li>Duke – RM45</li>
-        <li>King – RM55</li>
-      </ul>
+<section class="grid">
+<div class="card" data-animate>
+<h2>Payment Methods</h2>
+<ul>
+<li>Touch ‘n Go</li>
+<li>Shopee Pay</li>
+<li>QR Pay</li>
+<li>Wise* (open ticket)</li>
+<li>PayPal* (open ticket)</li>
+</ul>
+<h2>Available Products</h2>
+<h3>Ranks (1 Month)</h3>
+<ul>
+<li>Knight – RM15</li>
+<li>Lord – RM25</li>
+<li>Paladin – RM35</li>
+<li>Duke – RM45</li>
+<li>King – RM55</li>
+</ul>
+<h3>Other Perks</h3>
+<ul>
+<li>Permanent Fly Anywhere – RM100</li>
+<li>Battlepass (5 Weeks) – RM25</li>
+<li>2000 Coins – RM15</li>
+<li>x40 Common Key – RM15</li>
+<li>x20 Rare Key – RM15</li>
+<li>x12 Epic Key – RM12 (Discount)</li>
+<li>x2 Spawner Key – RM12</li>
+</ul>
+<h2 class="policy-header">Purchase Policy</h2>
+<div class="policy-box">
+<p>All purchases are final and non-refundable</p>
+<p>Once an order is placed, no cancellations, refunds, or changes will be accepted</p>
+<p>This policy applies to all services, products, and transactions with DaisyDreams</p>
+</div>
+</div>
 
-      <h3>Other Perks</h3>
-      <ul>
-        <li>Permanent Fly Anywhere – RM100</li>
-        <li>Battlepass (5 Weeks) – RM25</li>
-        <li>2000 Coins – RM15</li>
-        <li>x40 Common Key – RM15</li>
-        <li>x20 Rare Key – RM15</li>
-        <li>x12 Epic Key – RM12 (Discount)</li>
-        <li>x2 Spawner Key – RM12</li>
-      </ul>
-
-      <h2>Purchase Policy</h2>
-      <div class="policy-box">
-        <p>All purchases are final and non-refundable</p>
-        <p>Once an order is placed, no cancellations, refunds, or changes will be accepted</p>
-        <p>This policy applies to all services, products, and transactions with DaisyDreams</p>
-      </div>
-    </div>
-
-    <aside class="card" data-animate>
-      <h2>QR Payment</h2>
-      <p style="color:#9caaba;">Scan the QR below to pay. After payment, open a ticket in Discord for verification.</p>
-      <div class="qr-wrap">
-        <div class="qr-img" id="qrImg">
-          <img src="https://i.imgur.com/PuWqXOJ.jpeg" alt="QR Payment">
-        </div>
-        <button class="btn" onclick="window.open('https://discord.gg/daisydreams','_blank')">Open Discord Ticket</button>
-      </div>
-      <footer>Thank you for supporting DaisyDreams! 💖</footer>
-    </aside>
-  </section>
+<aside class="card" data-animate>
+<h2>QR Payment</h2>
+<p style="color:#9caaba;">Scan the QR below to pay. After payment, open a ticket in Discord for verification.</p>
+<div class="qr-wrap">
+<div class="qr-img" id="qrImg">
+<img src="https://i.imgur.com/PuWqXOJ.jpeg" alt="QR Payment">
+</div>
+<button class="btn" onclick="window.open('https://discord.gg/daisydreams','_blank')">Open Discord Ticket</button>
+</div>
+<footer>Thank you for supporting DaisyDreams! 💖</footer>
+</aside>
+</section>
 </main>
 
 <div class="popup-overlay" id="popupOverlay">
-  <img class="popup-img" id="popupImg" src="https://i.imgur.com/PuWqXOJ.jpeg" alt="QR Large">
+<img class="popup-img" src="https://i.imgur.com/PuWqXOJ.jpeg" alt="QR Large">
 </div>
 
 <script>
-// Simple particles
-const canvas = document.getElementById('particlesCanvas');
-const ctx = canvas.getContext('2d');
-let W=canvas.width=window.innerWidth, H=canvas.height=window.innerHeight;
-window.addEventListener('resize',()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
-const particles=[]; for(let i=0;i<120;i++){particles.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.5,dy:(Math.random()-0.5)*0.5,color:`rgba(46,204,113,${Math.random()*0.3+0.05})`});}
-function animateParticles(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>W)p.dx*=-1;if(p.y<0||p.y>H)p.dy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color;ctx.fill();});requestAnimationFrame(animateParticles);}
+// Interactive particles - banyak & saiz berbeza
+const canvas=document.getElementById('particlesCanvas');
+const ctx=canvas.getContext('2d');
+let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;});
+
+class Particle{
+  constructor(){
+    this.x=Math.random()*W;
+    this.y=Math.random()*H;
+    this.r=Math.random()*4+1; // saiz berbeza 1-5px
+    this.dx=(Math.random()-0.5)*0.6;
+    this.dy=(Math.random()-0.5)*0.6;
+    this.color=`rgba(46,204,113,${Math.random()*0.3+0.05})`;
+  }
+  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}
+  update(mouse){
+    this.x+=this.dx; this.y+=this.dy;
+    if(this.x<0||this.x>W)this.dx*=-1;
+    if(this.y<0||this.y>H)this.dy*=-1;
+    if(mouse.x && mouse.y){
+      let dist=Math.hypot(this.x-mouse.x,this.y-mouse.y);
+      if(dist<100){
+        let angle=Math.atan2(this.y-mouse.y,this.x-mouse.x);
+        let force=(100-dist)/100;
+        this.x+=Math.cos(angle)*force*4;
+        this.y+=Math.sin(angle)*force*4;
+      }
+    }
+    this.draw();
+  }
+}
+
+let particles=[];
+for(let i=0;i<300;i++)particles.push(new Particle());
+
+const mouse={x:null,y:null};
+window.addEventListener('mousemove',(e)=>{mouse.x=e.clientX;mouse.y=e.clientY;});
+window.addEventListener('mouseout',()=>{mouse.x=null;mouse.y=null;});
+
+function animateParticles(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>p.update(mouse));
+  requestAnimationFrame(animateParticles);
+}
 animateParticles();
 
 // Scroll reveal
-const observer = new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');}})},{threshold:0.2});
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}})},{threshold:0.2});
 document.querySelectorAll('[data-animate]').forEach(el=>observer.observe(el));
 
 // QR popup
-const qrImg=document.getElementById('qrImg');const overlay=document.getElementById('popupOverlay');
+const qrImg=document.getElementById('qrImg');
+const overlay=document.getElementById('popupOverlay');
 qrImg.addEventListener('click',()=>{overlay.classList.add('active');});
 overlay.addEventListener('click',()=>{overlay.classList.remove('active');});
 </script>
