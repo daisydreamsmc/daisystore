@@ -134,14 +134,13 @@
 
       <aside class="card" data-animate>
         <h2>QR Payment</h2>
-        <p class="muted">Scan the QR below to pay. After payment, open a ticket in Discord for verification: <a href="https://discord.gg/daisydreams" target="_blank">discord.gg/daisydreams</a></p>
+        <p class="muted">Scan the QR below to pay. After payment, open a ticket in Discord for verification.</p>
         <div class="qr-wrap" id="qrWrap">
           <div class="qr-img" id="qrImg">
             <img src="https://i.imgur.com/PuWqXOJ.jpeg" alt="DaisyDreams QR Payment" id="qrInnerImg">
           </div>
           <div class="cta">
-            <button class="btn" onclick="window.open('https://discord.gg/daisydreams','_blank')">Open Discord</button>
-            <button class="btn ghost" onclick="copyDiscord()">Copy Discord Link</button>
+            <button class="btn" onclick="window.open('https://discord.gg/daisydreams','_blank')">Open Discord Ticket</button>
           </div>
         </div>
         <footer>Thank you for supporting DaisyDreams! 💖</footer>
@@ -192,8 +191,6 @@
     const popupCard=document.getElementById('popupCard');
     qrImg.addEventListener('click',()=>{popupOverlay.classList.add('active');popupCard.classList.add('active');});
     popupOverlay.addEventListener('click',e=>{if(e.target===popupOverlay){popupOverlay.classList.remove('active');popupCard.classList.remove('active');}});
-
-    function copyDiscord(){navigator.clipboard?.writeText('https://discord.gg/daisydreams').then(()=>{alert('Discord link copied — open it to create a ticket.')}).catch(()=>{alert('Copy failed — please open: discord.gg/daisydreams')});}
   </script>
 </body>
 </html>
