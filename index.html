@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DaisyDreams Store — Interactive</title>
+<title>DaisyStore — Premium Store</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -20,8 +20,15 @@ body,html{margin:0;padding:0;font-family:Inter,sans-serif;background:var(--bg);c
 a{color:inherit;text-decoration:none;}
 .container{max-width:960px;margin:50px auto;padding:30px;background:var(--panel);border-radius:12px;backdrop-filter:blur(6px);position:relative;z-index:2;}
 header{text-align:center;margin-bottom:30px;}
-header h1{color:var(--accent-2);font-size:32px;margin-bottom:6px;}
-header p{color:var(--muted);font-size:16px;}
+header h1{
+  font-size:40px; 
+  background:linear-gradient(90deg,#2ecc71,#1abc9c);
+  -webkit-background-clip:text; 
+  color:transparent; 
+  text-shadow:0 0 15px rgba(46,204,113,0.5); 
+  letter-spacing:1px;
+}
+header p{color:#9caaba; font-size:16px; margin-top:6px;}
 .grid{display:grid;grid-template-columns:1fr 360px;gap:24px;}
 @media(max-width:880px){.grid{grid-template-columns:1fr;}}
 .card{
@@ -58,8 +65,8 @@ canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 <canvas id="particlesCanvas"></canvas>
 <main class="container">
 <header>
-<h1>DaisyDreams Store</h1>
-<p>Support the server and unlock exclusive perks. After payment, open a ticket in Discord for verification.</p>
+<h1>DaisyStore</h1>
+<p>Unlock exclusive perks and support the server</p>
 </header>
 
 <section class="grid">
@@ -118,7 +125,7 @@ canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 </div>
 
 <script>
-// Interactive particles - banyak & saiz berbeza
+// Magical interactive particles + soft glowing orbs
 const canvas=document.getElementById('particlesCanvas');
 const ctx=canvas.getContext('2d');
 let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;
@@ -128,10 +135,10 @@ class Particle{
   constructor(){
     this.x=Math.random()*W;
     this.y=Math.random()*H;
-    this.r=Math.random()*4+1; // saiz berbeza 1-5px
+    this.r=Math.random()*4+1;
     this.dx=(Math.random()-0.5)*0.6;
     this.dy=(Math.random()-0.5)*0.6;
-    this.color=`rgba(46,204,113,${Math.random()*0.3+0.05})`;
+    this.color=`rgba(46,204,113,${Math.random()*0.4+0.05})`;
   }
   draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}
   update(mouse){
@@ -152,18 +159,36 @@ class Particle{
 }
 
 let particles=[];
-for(let i=0;i<300;i++)particles.push(new Particle());
+for(let i=0;i<350;i++)particles.push(new Particle());
+
+// Soft glowing orbs
+class Orb{
+  constructor(){
+    this.x=Math.random()*W;
+    this.y=Math.random()*H;
+    this.r=Math.random()*30+10;
+    this.dx=(Math.random()-0.5)*0.1;
+    this.dy=(Math.random()-0.5)*0.1;
+    this.color=`rgba(46,204,113,0.05)`;
+  }
+  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}
+  update(){this.x+=this.dx; this.y+=this.dy; if(this.x<0||this.x>W)this.dx*=-1;if(this.y<0||this.y>H)this.dy*=-1; this.draw();}
+}
+
+let orbs=[];
+for(let i=0;i<15;i++)orbs.push(new Orb());
 
 const mouse={x:null,y:null};
 window.addEventListener('mousemove',(e)=>{mouse.x=e.clientX;mouse.y=e.clientY;});
 window.addEventListener('mouseout',()=>{mouse.x=null;mouse.y=null;});
 
-function animateParticles(){
+function animate(){
   ctx.clearRect(0,0,W,H);
+  orbs.forEach(o=>o.update());
   particles.forEach(p=>p.update(mouse));
-  requestAnimationFrame(animateParticles);
+  requestAnimationFrame(animate);
 }
-animateParticles();
+animate();
 
 // Scroll reveal
 const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}})},{threshold:0.2});
