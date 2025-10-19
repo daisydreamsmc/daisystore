@@ -1,195 +1,135 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DaisyDreams Store — Support the Server</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#04050a;
-      --panel:rgba(10,14,20,0.92);
-      --accent:#2ecc71;
-      --accent-2:#f1c40f;
-      --muted:#9caaba;
-      --text:#e7edf2;
-      --policy-bg:rgba(255,255,255,0.04);
-      --hover-card:#1a1f2b;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;scroll-behavior:smooth}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text);overflow-x:hidden;}
-
-    /* Particles Layer */
-    .particles-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:var(--bg);}
-    canvas{display:block}
-
-    /* Container & Layout */
-    .container{position:relative;z-index:2;max-width:960px;margin:48px auto;padding:36px;border-radius:14px;background:var(--panel);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04);box-shadow:0 30px 80px rgba(0,0,0,0.7);}
-    header{text-align:center;margin-bottom:28px}
-    header h1{font-size:32px;font-weight:700;color:var(--accent-2);margin-bottom:8px;letter-spacing:1px}
-    header p.lead{font-size:16px;color:var(--muted);line-height:1.6}
-
-    .grid{display:grid;grid-template-columns:1fr 360px;gap:28px}
-    @media(max-width:880px){.grid{grid-template-columns:1fr}}
-
-    /* Cards with hover animation */
-    .card{
-      background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
-      padding:24px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.03);
-      transition:all 0.6s ease, transform 0.6s ease, box-shadow 0.4s ease;
-      opacity:0;
-      transform:translateY(40px);
-    }
-    .card.visible{opacity:1;transform:translateY(0);}
-    .card:hover{
-      transform:translateY(-8px);
-      box-shadow:0 35px 80px rgba(0,0,0,0.75);
-    }
-
-    h2{font-size:20px;font-weight:600;color:var(--accent-2);margin:20px 0 10px;letter-spacing:0.5px}
-    h3{font-size:16px;font-weight:500;margin:10px 0;color:var(--accent);letter-spacing:0.5px}
-    ul{margin:6px 0 0 20px; padding:0; list-style:none}
-    li{margin:6px 0;color:var(--text);line-height:1.45;position:relative;padding-left:14px;transition:all 0.2s ease}
-    li:hover{color:var(--accent)}
-    li::before{content:'\\2022';position:absolute;left:0;color:var(--accent-2);font-weight:bold}
-    .muted{color:var(--muted);font-size:14px}
-
-    .policy-box{background:var(--policy-bg);padding:16px 18px;border-radius:10px;font-size:13px;line-height:1.5;color:var(--muted);margin-top:12px}
-    .policy-header{margin-top:32px;margin-bottom:12px;font-size:18px;font-weight:600;color:var(--accent-2);letter-spacing:0.5px}
-
-    .qr-wrap{text-align:center;margin-top:18px}
-    .qr-img{width:280px;height:auto;margin:0 auto;border-radius:12px;overflow:hidden;border:3px solid rgba(255,255,255,0.05);box-shadow:0 12px 35px rgba(0,0,0,0.6);cursor:pointer;display:block;transition:all 0.3s ease}
-    .qr-img img{width:100%;height:auto;display:block;transition:all 0.3s ease}
-    .qr-img:hover{transform:scale(1.05);box-shadow:0 20px 60px rgba(0,0,0,0.7)}
-
-    .cta{display:flex;gap:10px;margin-top:16px}
-    .btn{flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),#1f8e4f);color:#04270f;font-weight:700;cursor:pointer;transition:all 0.25s ease}
-    .btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 12px 28px rgba(0,0,0,0.5)}
-
-    footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
-
-    .popup-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,11,0.78);visibility:hidden;opacity:0;transition:opacity .35s ease,visibility .35s ease;z-index:80}
-    .popup-overlay.active{visibility:visible;opacity:1}
-    .popup-card{background:transparent;border-radius:12px;padding:12px;transform:scale(.8);transition:transform .35s cubic-bezier(.2,.9,.2,1);}
-    .popup-card.active{transform:scale(1)}
-    .popup-img{max-width:84vw;max-height:84vh;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,0.6);display:block}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DaisyDreams Store — Support the Server</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04050a;
+  --panel:rgba(10,14,20,0.92);
+  --accent:#2ecc71;
+  --accent-2:#f1c40f;
+  --muted:#9caaba;
+  --text:#e7edf2;
+  --policy-bg:rgba(255,255,255,0.04);
+}
+*{box-sizing:border-box;}
+body, html{margin:0; padding:0; font-family:Inter, sans-serif; background:var(--bg); color:var(--text); scroll-behavior:smooth;}
+a{color:inherit;text-decoration:none;}
+.container{max-width:960px; margin:50px auto; padding:30px; background:var(--panel); border-radius:12px; backdrop-filter:blur(6px);}
+header{text-align:center; margin-bottom:30px;}
+header h1{color:var(--accent-2); font-size:32px; margin-bottom:6px;}
+header p{color:var(--muted); font-size:16px;}
+.grid{display:grid; grid-template-columns:1fr 360px; gap:24px;}
+@media(max-width:880px){.grid{grid-template-columns:1fr;}}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); transition:all 0.4s ease, transform 0.4s ease; opacity:0; transform:translateY(30px);}
+.card.visible{opacity:1; transform:translateY(0);}
+.card:hover{transform:translateY(-6px); box-shadow:0 25px 60px rgba(0,0,0,0.6);}
+h2{color:var(--accent-2); margin:18px 0 10px; font-size:20px;}
+h3{color:var(--accent); margin:10px 0; font-size:16px;}
+ul{list-style:none; padding-left:20px; margin:0;}
+li{position:relative; padding-left:16px; margin:6px 0;}
+li::before{content:'\2022'; position:absolute; left:0; color:var(--accent-2);}
+.policy-box{background:var(--policy-bg); padding:14px 16px; border-radius:10px; font-size:13px; line-height:1.5; color:var(--muted);}
+.qr-wrap{text-align:center; margin-top:18px;}
+.qr-img{width:280px; margin:0 auto; cursor:pointer; border-radius:10px; overflow:hidden; border:2px solid rgba(255,255,255,0.05); transition:all 0.3s ease;}
+.qr-img img{width:100%; height:auto; display:block;}
+.qr-img:hover{transform:scale(1.05);}
+.btn{width:100%; margin-top:12px; padding:12px; border-radius:10px; border:none; background:linear-gradient(180deg,var(--accent),#1f8e4f); color:#04270f; font-weight:600; cursor:pointer; transition:all 0.25s ease;}
+.btn:hover{transform:translateY(-2px) scale(1.02);}
+footer{text-align:center; color:var(--muted); font-size:13px; margin-top:14px;}
+.popup-overlay{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.8); visibility:hidden; opacity:0; transition:opacity .3s ease, visibility .3s ease; z-index:50;}
+.popup-overlay.active{visibility:visible; opacity:1;}
+.popup-img{max-width:80vw; max-height:80vh; border-radius:8px;}
+canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
+</style>
 </head>
 <body>
-  <canvas class="particles-layer" id="particlesLayer"></canvas>
+<canvas id="particlesCanvas"></canvas>
 
-  <main class="container" id="mainContent">
-    <header>
-      <h1>DaisyDreams Store</h1>
-      <p class="lead">Support the server and unlock exclusive perks. After payment, open a ticket in Discord for verification.</p>
-    </header>
+<main class="container">
+  <header>
+    <h1>DaisyDreams Store</h1>
+    <p>Support the server and unlock exclusive perks. After payment, open a ticket in Discord for verification.</p>
+  </header>
+  <section class="grid">
+    <div class="card" data-animate>
+      <h2>Payment Methods</h2>
+      <ul>
+        <li>Touch ‘n Go</li>
+        <li>Shopee Pay</li>
+        <li>QR Pay</li>
+        <li>Wise* (open ticket)</li>
+        <li>PayPal* (open ticket)</li>
+      </ul>
 
-    <section class="grid">
-      <div class="card" data-animate>
-        <h2>Payment Methods</h2>
-        <ul>
-          <li>Touch ‘n Go</li>
-          <li>Shopee Pay</li>
-          <li>QR Pay</li>
-          <li>Wise* (open ticket for details)</li>
-          <li>PayPal* (open ticket for details)</li>
-        </ul>
+      <h2>Available Products</h2>
+      <h3>Ranks (1 Month)</h3>
+      <ul>
+        <li>Knight – RM15</li>
+        <li>Lord – RM25</li>
+        <li>Paladin – RM35</li>
+        <li>Duke – RM45</li>
+        <li>King – RM55</li>
+      </ul>
 
-        <h2>Available Products</h2>
-        <h3>Ranks (1 Month)</h3>
-        <ul>
-          <li>Knight – RM15</li>
-          <li>Lord – RM25</li>
-          <li>Paladin – RM35</li>
-          <li>Duke – RM45</li>
-          <li>King – RM55</li>
-        </ul>
+      <h3>Other Perks</h3>
+      <ul>
+        <li>Permanent Fly Anywhere – RM100</li>
+        <li>Battlepass (5 Weeks) – RM25</li>
+        <li>2000 Coins – RM15</li>
+        <li>x40 Common Key – RM15</li>
+        <li>x20 Rare Key – RM15</li>
+        <li>x12 Epic Key – RM12 (Discount)</li>
+        <li>x2 Spawner Key – RM12</li>
+      </ul>
 
-        <h3>Other Perks</h3>
-        <ul>
-          <li>Permanent Fly Anywhere – RM100</li>
-          <li>Battlepass (5 Weeks) – RM25</li>
-          <li>2000 Coins – RM15</li>
-          <li>x40 Common Key – RM15</li>
-          <li>x20 Rare Key – RM15</li>
-          <li>x12 Epic Key – RM12 (Discount)</li>
-          <li>x2 Spawner Key – RM12</li>
-        </ul>
-
-        <h2 class="policy-header">Purchase Policy</h2>
-        <div class="policy-box">
-          <p>All purchases are final and non-refundable</p>
-          <p>Once an order is placed, no cancellations, refunds, or changes will be accepted</p>
-          <p>This policy applies to all services, products, and transactions with DaisyDreams</p>
-        </div>
+      <h2>Purchase Policy</h2>
+      <div class="policy-box">
+        <p>All purchases are final and non-refundable</p>
+        <p>Once an order is placed, no cancellations, refunds, or changes will be accepted</p>
+        <p>This policy applies to all services, products, and transactions with DaisyDreams</p>
       </div>
-
-      <aside class="card" data-animate>
-        <h2>QR Payment</h2>
-        <p class="muted">Scan the QR below to pay. After payment, open a ticket in Discord for verification.</p>
-        <div class="qr-wrap">
-          <div class="qr-img" id="qrImg">
-            <img src="https://i.imgur.com/PuWqXOJ.jpeg" alt="DaisyDreams QR Payment">
-          </div>
-          <div class="cta">
-            <button class="btn" onclick="window.open('https://discord.gg/daisydreams','_blank')">Open Discord Ticket</button>
-          </div>
-        </div>
-        <footer>Thank you for supporting DaisyDreams! 💖</footer>
-      </aside>
-    </section>
-  </main>
-
-  <div class="popup-overlay" id="popupOverlay">
-    <div class="popup-card" id="popupCard">
-      <img class="popup-img" id="popupImg" src="https://i.imgur.com/PuWqXOJ.jpeg" alt="DaisyDreams QR Large">
     </div>
-  </div>
 
-  <script>
-    // Particles setup
-    const canvas = document.getElementById('particlesLayer');
-    const ctx = canvas.getContext('2d');
-    let W = canvas.width = window.innerWidth, H = canvas.height = window.innerHeight;
-    window.addEventListener('resize', ()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
+    <aside class="card" data-animate>
+      <h2>QR Payment</h2>
+      <p style="color:#9caaba;">Scan the QR below to pay. After payment, open a ticket in Discord for verification.</p>
+      <div class="qr-wrap">
+        <div class="qr-img" id="qrImg">
+          <img src="https://i.imgur.com/PuWqXOJ.jpeg" alt="QR Payment">
+        </div>
+        <button class="btn" onclick="window.open('https://discord.gg/daisydreams','_blank')">Open Discord Ticket</button>
+      </div>
+      <footer>Thank you for supporting DaisyDreams! 💖</footer>
+    </aside>
+  </section>
+</main>
 
-    const particles = [];
-    const PARTICLE_COUNT = 120;
-    for(let i=0;i<PARTICLE_COUNT;i++){
-      particles.push({x: Math.random()*W, y: Math.random()*H, r: Math.random()*2+1, dx:(Math.random()-0.5)*0.5, dy:(Math.random()-0.5)*0.5, color:`rgba(46,204,113,${Math.random()*0.4+0.05})`});
-    }
+<div class="popup-overlay" id="popupOverlay">
+  <img class="popup-img" id="popupImg" src="https://i.imgur.com/PuWqXOJ.jpeg" alt="QR Large">
+</div>
 
-    function animateParticles(){
-      ctx.clearRect(0,0,W,H);
-      particles.forEach(p=>{
-        p.x+=p.dx; p.y+=p.dy;
-        if(p.x<0||p.x>W)p.dx*=-1;
-        if(p.y<0||p.y>H)p.dy*=-1;
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=p.color; ctx.fill();
-      });
-      requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
+<script>
+// Simple particles
+const canvas = document.getElementById('particlesCanvas');
+const ctx = canvas.getContext('2d');
+let W=canvas.width=window.innerWidth, H=canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
+const particles=[]; for(let i=0;i<120;i++){particles.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.5,dy:(Math.random()-0.5)*0.5,color:`rgba(46,204,113,${Math.random()*0.3+0.05})`});}
+function animateParticles(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>W)p.dx*=-1;if(p.y<0||p.y>H)p.dy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color;ctx.fill();});requestAnimationFrame(animateParticles);}
+animateParticles();
 
-    // QR popup
-    const qrImg = document.getElementById('qrImg');
-    const overlay = document.getElementById('popupOverlay');
-    const popupCard = document.getElementById('popupCard');
-    qrImg.addEventListener('click',()=>{ overlay.classList.add('active'); popupCard.classList.add('active'); });
-    overlay.addEventListener('click',()=>{ overlay.classList.remove('active'); popupCard.classList.remove('active'); });
+// Scroll reveal
+const observer = new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');}})},{threshold:0.2});
+document.querySelectorAll('[data-animate]').forEach(el=>observer.observe(el));
 
-    // Scroll reveal animation
-    const observer = new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){ entry.target.classList.add('visible'); }
-      });
-    },{threshold:0.2});
-    document.querySelectorAll('[data-animate]').forEach(el=>observer.observe(el));
-  </script>
+// QR popup
+const qrImg=document.getElementById('qrImg');const overlay=document.getElementById('popupOverlay');
+qrImg.addEventListener('click',()=>{overlay.classList.add('active');});
+overlay.addEventListener('click',()=>{overlay.classList.remove('active');});
+</script>
 </body>
 </html>
