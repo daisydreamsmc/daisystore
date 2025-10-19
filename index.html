@@ -48,11 +48,50 @@ li:hover{color:var(--accent); text-shadow:0 0 6px var(--accent);}
 .policy-box{background:var(--policy-bg);padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.5;color:var(--muted);}
 .policy-header{margin-top:28px;margin-bottom:10px;font-size:18px;font-weight:600;color:var(--accent-2);}
 .qr-wrap{text-align:center;margin-top:18px;}
-.qr-img{width:280px;margin:0 auto;border-radius:10px;overflow:hidden;cursor:pointer;border:2px solid rgba(255,255,255,0.05);transition:all 0.3s ease;}
-.qr-img img{width:100%;display:block;transition:all 0.3s ease;}
-.qr-img:hover{transform:scale(1.05);box-shadow:0 20px 60px rgba(46,204,113,0.5);}
-.btn{width:100%;margin-top:12px;padding:12px;border-radius:10px;border:none;background:linear-gradient(270deg,var(--accent),#1f8e4f);color:#04270f;font-weight:600;cursor:pointer;transition:all 0.3s ease;background-size:200% 200%;}
-.btn:hover{background-position:100% 0;transform:translateY(-2px) scale(1.02);box-shadow:0 12px 28px rgba(0,0,0,0.5);}
+.qr-img{
+  width:280px;
+  margin:0 auto;
+  border-radius:12px;
+  overflow:hidden;
+  cursor:pointer;
+  border:2px solid rgba(255,255,255,0.05);
+  transition:all 0.3s ease, box-shadow 0.3s ease;
+  background:#0a0c14;
+  padding:8px;
+}
+.qr-img img{
+  width:100%;
+  display:block;
+  border-radius:8px;
+  transition:all 0.3s ease;
+}
+.qr-img:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 25px rgba(46,204,113,0.6),0 20px 60px rgba(46,204,113,0.3);
+}
+.btn{
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(270deg,var(--accent),#1f8e4f);
+  color:#04270f;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.3s ease, box-shadow 0.3s ease;
+  background-size:200% 200%;
+}
+.btn:hover{
+  background-position:100% 0;
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 0 15px rgba(46,204,113,0.8), 0 12px 28px rgba(0,0,0,0.5);
+}
+.btn:disabled{
+  cursor:not-allowed;
+  opacity:0.6;
+  box-shadow:none;
+}
 footer{text-align:center;color:var(--muted);font-size:13px;margin-top:14px;}
 .popup-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);visibility:hidden;opacity:0;transition:opacity .3s ease, visibility .3s ease;z-index:50;}
 .popup-overlay.active{visibility:visible;opacity:1;}
@@ -88,6 +127,8 @@ canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 <li>Duke – RM45</li>
 <li>King – RM55</li>
 </ul>
+<button class="btn" onclick="window.open('https://wiki.daisydreams.xyz/info/player-ranks','_blank')">View Benefit Ranks</button>
+
 <h3>Other Perks</h3>
 <ul>
 <li>Permanent Fly Anywhere – RM100</li>
@@ -111,9 +152,10 @@ canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 <p style="color:#9caaba;">Scan the QR below to pay. After payment, open a ticket in Discord for verification.</p>
 <div class="qr-wrap">
 <div class="qr-img" id="qrImg">
-<img src="https://i.imgur.com/PuWqXOJ.jpeg" alt="QR Payment">
+<img src="https://i.imgur.com/LqKbApH.jpeg" alt="QR Payment">
 </div>
 <button class="btn" onclick="window.open('https://discord.gg/daisydreams','_blank')">Open Discord Ticket</button>
+<button class="btn" disabled>Shopee Store – Soon</button>
 </div>
 <footer>Thank you for supporting DaisyDreams! 💖</footer>
 </aside>
@@ -121,7 +163,7 @@ canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 </main>
 
 <div class="popup-overlay" id="popupOverlay">
-<img class="popup-img" src="https://i.imgur.com/PuWqXOJ.jpeg" alt="QR Large">
+<img class="popup-img" src="https://i.imgur.com/LqKbApH.jpeg" alt="QR Large">
 </div>
 
 <script>
@@ -132,62 +174,27 @@ let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;
 window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;});
 
 class Particle{
-  constructor(){
-    this.x=Math.random()*W;
-    this.y=Math.random()*H;
-    this.r=Math.random()*4+1;
-    this.dx=(Math.random()-0.5)*0.6;
-    this.dy=(Math.random()-0.5)*0.6;
-    this.color=`rgba(46,204,113,${Math.random()*0.4+0.05})`;
-  }
+  constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*4+1;this.dx=(Math.random()-0.5)*0.6;this.dy=(Math.random()-0.5)*0.6;this.color=`rgba(46,204,113,${Math.random()*0.4+0.05})`;}
   draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}
-  update(mouse){
-    this.x+=this.dx; this.y+=this.dy;
-    if(this.x<0||this.x>W)this.dx*=-1;
-    if(this.y<0||this.y>H)this.dy*=-1;
-    if(mouse.x && mouse.y){
-      let dist=Math.hypot(this.x-mouse.x,this.y-mouse.y);
-      if(dist<100){
-        let angle=Math.atan2(this.y-mouse.y,this.x-mouse.x);
-        let force=(100-dist)/100;
-        this.x+=Math.cos(angle)*force*4;
-        this.y+=Math.sin(angle)*force*4;
-      }
-    }
-    this.draw();
-  }
+  update(mouse){this.x+=this.dx; this.y+=this.dy;if(this.x<0||this.x>W)this.dx*=-1;if(this.y<0||this.y>H)this.dy*=-1;if(mouse.x && mouse.y){let dist=Math.hypot(this.x-mouse.x,this.y-mouse.y);if(dist<100){let angle=Math.atan2(this.y-mouse.y,this.x-mouse.x);let force=(100-dist)/100;this.x+=Math.cos(angle)*force*4;this.y+=Math.sin(angle)*force*4;}}this.draw();}
 }
 
-let particles=[];
-for(let i=0;i<350;i++)particles.push(new Particle());
+let particles=[];for(let i=0;i<350;i++)particles.push(new Particle());
 
 // Soft glowing orbs
 class Orb{
-  constructor(){
-    this.x=Math.random()*W;
-    this.y=Math.random()*H;
-    this.r=Math.random()*30+10;
-    this.dx=(Math.random()-0.5)*0.1;
-    this.dy=(Math.random()-0.5)*0.1;
-    this.color=`rgba(46,204,113,0.05)`;
-  }
+  constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*30+10;this.dx=(Math.random()-0.5)*0.1;this.dy=(Math.random()-0.5)*0.1;this.color=`rgba(46,204,113,0.05)`;}
   draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}
   update(){this.x+=this.dx; this.y+=this.dy; if(this.x<0||this.x>W)this.dx*=-1;if(this.y<0||this.y>H)this.dy*=-1; this.draw();}
 }
 
-let orbs=[];
-for(let i=0;i<15;i++)orbs.push(new Orb());
+let orbs=[];for(let i=0;i<15;i++)orbs.push(new Orb());
 
 const mouse={x:null,y:null};
 window.addEventListener('mousemove',(e)=>{mouse.x=e.clientX;mouse.y=e.clientY;});
 window.addEventListener('mouseout',()=>{mouse.x=null;mouse.y=null;});
 
-function animate(){
-  ctx.clearRect(0,0,W,H);
-  orbs.forEach(o=>o.update());
-  particles.forEach(p=>p.update(mouse));
-  requestAnimationFrame(animate);
-}
+function animate(){ctx.clearRect(0,0,W,H);orbs.forEach(o=>o.update());particles.forEach(p=>p.update(mouse));requestAnimationFrame(animate);}
 animate();
 
 // Scroll reveal
