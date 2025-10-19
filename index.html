@@ -15,7 +15,7 @@
   --text:#e7edf2;
   --policy-bg:rgba(255,255,255,0.04);
 }
-*{box-sizing:border-box; margin:0; padding:0;}
+*{box-sizing:border-box;margin:0;padding:0;}
 body,html{
   font-family:Inter,sans-serif;
   background: radial-gradient(circle at top left, #04050a 0%, #010114 100%);
@@ -43,6 +43,15 @@ header p{
   color:var(--muted);
   font-size:16px;
   margin-top:6px;
+}
+h2 span,h3 span{
+  margin-right:8px;
+  font-size:22px;
+  vertical-align:middle;
+  transition: transform 0.3s ease;
+}
+h2 span:hover,h3 span:hover{
+  transform:scale(1.1);
 }
 .grid{display:grid;grid-template-columns:1fr 360px;gap:24px;}
 @media(max-width:880px){.grid{grid-template-columns:1fr;}}
@@ -156,7 +165,7 @@ canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 
 <section class="grid">
 <div class="card" data-animate>
-<h2>Payment Methods</h2>
+<h2><span>💳</span> Payment Methods</h2>
 <ul>
 <li>Touch ‘n Go</li>
 <li>Shopee Pay</li>
@@ -164,7 +173,8 @@ canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 <li>Wise* (open ticket)</li>
 <li>PayPal* (open ticket)</li>
 </ul>
-<h2>Available Products</h2>
+
+<h2><span>🎁</span> Available Products</h2>
 <h3>Ranks (1 Month)</h3>
 <ul>
 <li>Knight – RM15</li>
@@ -175,7 +185,7 @@ canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 </ul>
 <button class="btn" onclick="window.open('https://wiki.daisydreams.xyz/info/player-ranks','_blank')">View Benefit Ranks</button>
 
-<h3>Other Perks</h3>
+<h3><span>⚡</span> Other Perks</h3>
 <ul>
 <li>Permanent Fly Anywhere – RM100</li>
 <li>Battlepass (5 Weeks) – RM25</li>
@@ -185,6 +195,7 @@ canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 <li>x12 Epic Key – RM12 (Discount)</li>
 <li>x2 Spawner Key – RM12</li>
 </ul>
+
 <h2 class="policy-header">Purchase Policy</h2>
 <div class="policy-box">
 <p>All purchases are final and non-refundable.</p>
@@ -194,7 +205,7 @@ canvas{position:fixed; inset:0; z-index:0; pointer-events:none;}
 </div>
 
 <aside class="card" data-animate>
-<h2>QR Payment</h2>
+<h2><span>📲</span> QR Payment</h2>
 <p class="payment-instructions">
 After completing your payment, please open a ticket in the <span class="highlight">DaisyDreams Discord server</span> and provide your <span class="highlight">Minecraft username</span>, along with the <span class="highlight">purchase remark</span> and <span class="highlight">quantity</span> of items purchased.
 </p>
@@ -216,20 +227,24 @@ After completing your payment, please open a ticket in the <span class="highligh
 
 <script>
 // Particles animation
-const canvas=document.getElementById('particlesCanvas');const ctx=canvas.getContext('2d');let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;
+const canvas=document.getElementById('particlesCanvas');
+const ctx=canvas.getContext('2d');
+let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;
 window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;});
 class Particle{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*4+1;this.dx=(Math.random()-0.5)*0.6;this.dy=(Math.random()-0.5)*0.6;this.color=`rgba(46,204,113,${Math.random()*0.4+0.05})`;}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}update(mouse){this.x+=this.dx; this.y+=this.dy;if(this.x<0||this.x>W)this.dx*=-1;if(this.y<0||this.y>H)this.dy*=-1;if(mouse.x && mouse.y){let dist=Math.hypot(this.x-mouse.x,this.y-mouse.y);if(dist<100){let angle=Math.atan2(this.y-mouse.y,this.x-mouse.x);let force=(100-dist)/100;this.x+=Math.cos(angle)*force*4;this.y+=Math.sin(angle)*force*4;}}this.draw();}}
 let particles=[];for(let i=0;i<350;i++)particles.push(new Particle());
-class Orb{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*30+10;this.dx=(Math.random()-0.5)*0.1;this.dy=(Math.random()-0.5)*0.1;this.color=`rgba(46,204,113,0.05)`;}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}update(){this.x+=this.dx; this.y+=this.dy; if(this.x<0||this.x>W)this.dx*=-1;if(this.y<0||this.y>H)this.dy*=-1; this.draw();}}
+class Orb{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*30+10;this.dx=(Math.random()-0.5)*0.1;this.dy=(Math.random()-0.5)*0.1;this.color=`rgba(46,204,113,0.05)`;}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}update(){this.x+=this.dx; this.y+=this.dy;if(this.x<0||this.x>W)this.dx*=-1;if(this.y<0||this.y>H)this.dy*=-1;this.draw();}}
 let orbs=[];for(let i=0;i<15;i++)orbs.push(new Orb());
 const mouse={x:null,y:null};
 window.addEventListener('mousemove',(e)=>{mouse.x=e.clientX;mouse.y=e.clientY;});
 window.addEventListener('mouseout',()=>{mouse.x=null;mouse.y=null;});
 function animate(){ctx.clearRect(0,0,W,H);orbs.forEach(o=>o.update());particles.forEach(p=>p.update(mouse));requestAnimationFrame(animate);}
 animate();
+
 // Scroll reveal
 const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}})},{threshold:0.2});
 document.querySelectorAll('[data-animate]').forEach(el=>observer.observe(el));
+
 // QR popup
 const qrImg=document.getElementById('qrImg');const overlay=document.getElementById('popupOverlay');
 qrImg.addEventListener('click',()=>{overlay.classList.add('active');});
