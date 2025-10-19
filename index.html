@@ -8,149 +8,201 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0a0f17;
-      --panel: #121b2a;
-      --accent: #2ecc71;
-      --accent-2: #f1c40f;
-      --muted: #9caaba;
-      --text: #e7edf2;
+    :root{
+      --bg:#04050a;
+      --panel:rgba(10,14,20,0.92);
+      --accent:#2ecc71;
+      --accent-2:#f1c40f;
+      --muted:#9caaba;
+      --text:#e7edf2;
     }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Inter, sans-serif;
-      background: radial-gradient(circle at 20% 20%, #101824, #080c12 80%), url('https://static.planetminecraft.com/files/image/minecraft_texture/2023/454/17025120_earthbg_l.webp') center/cover no-repeat;
-      color: var(--text);
-      padding: 24px;
-      display: flex;
-      justify-content: center;
-    }
-    .container {
-      max-width: 850px;
-      background: var(--panel);
-      padding: 32px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-    }
-    h1, h2 {
-      font-family: 'Press Start 2P', monospace;
-      color: var(--accent);
-      font-size: 16px;
-    }
-    h1 { text-align: center; margin-bottom: 24px; }
-    p, li { font-size: 15px; line-height: 1.6; }
-    ul { padding-left: 20px; }
-    .section { margin-bottom: 28px; }
-    .emoji { filter: brightness(1.3); }
-    .highlight { color: var(--accent-2); font-weight: 600; }
-
-    .qr-section {
-      text-align: center;
-      margin-top: 40px;
-      background: rgba(255,255,255,0.03);
-      padding: 24px;
-      border-radius: 12px;
-    }
-    .qr-img {
-      width: 240px;
-      height: 240px;
-      border-radius: 10px;
-      margin: 0 auto 16px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-      overflow: hidden;
-    }
-    .qr-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
     }
 
-    .footer-note {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 14px;
-      color: var(--muted);
+    /* --- Soft light orb particle background --- */
+    .particles-layer{
+      position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.02), transparent 30%);
+    }
+    .orb{
+      position:absolute;display:block;border-radius:50%;pointer-events:none;
+      mix-blend-mode:screen; /* nicer glow over dark background */
+      will-change:transform,opacity;
+      filter:blur(8px);
+      opacity:0.85;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
+    @keyframes floatY{
+      0%{transform:translateY(-6px)}
+      50%{transform:translateY(6px)}
+      100%{transform:translateY(-6px)}
     }
-    a:hover {
-      text-decoration: underline;
+
+    .container{position:relative;z-index:2;max-width:920px;margin:48px auto;padding:34px;border-radius:14px;background:var(--panel);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04);box-shadow:0 30px 80px rgba(0,0,0,0.7)}
+    header{text-align:center;margin-bottom:14px}
+    h1{font-family:'Press Start 2P',monospace;color:var(--accent);font-size:20px;margin:4px 0}
+    p.lead{color:var(--muted);margin:6px 0}
+
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    @media(max-width:880px){.grid{grid-template-columns:1fr}}
+
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:18px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+    h2{font-family:'Press Start 2P',monospace;color:var(--accent);font-size:12px;margin:8px 0}
+    ul{margin:8px 0 0 18px;padding:0}
+    li{margin:8px 0;color:var(--text)}
+    .muted{color:var(--muted);font-size:14px}
+
+    .qr-wrap{text-align:center;margin-top:12px}
+    .qr-img{width:260px;height:auto;margin:0 auto;border-radius:10px;overflow:hidden;border:3px solid rgba(255,255,255,0.04);box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer;display:block}
+    .qr-img img{width:100%;height:auto;display:block}
+
+    .cta{display:flex;gap:8px;margin-top:12px}
+    .btn{flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),#1f8e4f);color:#04270f;font-weight:700;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+
+    footer{margin-top:14px;text-align:center;color:var(--muted);font-size:13px}
+
+    .popup-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,11,0.78);visibility:hidden;opacity:0;transition:opacity .35s ease,visibility .35s ease;z-index:80}
+    .popup-overlay.active{visibility:visible;opacity:1}
+    .popup-card{background:transparent;border-radius:12px;padding:12px;transform:scale(.8);transition:transform .35s cubic-bezier(.2,.9,.2,1);}
+    .popup-card.active{transform:scale(1)}
+    .popup-img{max-width:84vw;max-height:84vh;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,0.6);display:block}
+
+    @media (prefers-reduced-motion: reduce){
+      .orb{animation:none;filter:blur(6px)}
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>DaisyDreams Store</h1>
+  <div class="particles-layer" id="particlesLayer" aria-hidden="true"></div>
 
-    <div class="section">
-      <p>Looking to support the server and enjoy exclusive perks? 🌸<br><br>
-      Your support helps us cover server costs and continue improving the player experience. <span class="emoji">💖</span></p>
-    </div>
+  <main class="container" id="mainContent">
+    <header>
+      <h1>DaisyDreams Store</h1>
+      <p class="lead">Support the server & unlock exclusive perks — after payment, open a ticket in Discord for verification.</p>
+    </header>
 
-    <div class="section">
-      <h2>💳 Payment Methods</h2>
-      <p>We also accept the following payment options for your convenience:</p>
-      <ul>
-        <li>✅ Touch ‘n Go</li>
-        <li>✅ Shopee Pay</li>
-        <li>✅ QR Pay</li>
-        <li>✅ Wise*</li>
-        <li>✅ PayPal*</li>
-      </ul>
-      <p>💡 <em>*For Wise and PayPal payments, please open a support ticket to receive the payment details.</em></p>
-    </div>
+    <section class="grid">
+      <div class="card">
+        <h2>💳 Payment Methods</h2>
+        <p class="muted">We accept the following:</p>
+        <ul>
+          <li>✅ Touch ‘n Go</li>
+          <li>✅ Shopee Pay</li>
+          <li>✅ QR Pay</li>
+          <li>✅ Wise* (open ticket for details)</li>
+          <li>✅ PayPal* (open ticket for details)</li>
+        </ul>
 
-    <div class="section">
-      <h2>🎁 Available Products</h2>
-      <h3>🛡️ Ranks (1 Month)</h3>
-      <ul>
-        <li>🏰 Knight – RM15</li>
-        <li>⚔️ Lord – RM25</li>
-        <li>🛡️ Paladin – RM35</li>
-        <li>🎩 Duke – RM45</li>
-        <li>👑 King – RM55</li>
-      </ul>
+        <h2 style="margin-top:18px">🎁 Available Products</h2>
+        <h3 style="font-family:Inter, sans-serif;margin:8px 0;color:var(--accent-2)">Ranks (1 Month)</h3>
+        <ul>
+          <li>🏰 Knight – RM15</li>
+          <li>⚔️ Lord – RM25</li>
+          <li>🛡️ Paladin – RM35</li>
+          <li>🎩 Duke – RM45</li>
+          <li>👑 King – RM55</li>
+        </ul>
 
-      <h3>✨ Other Perks</h3>
-      <ul>
-        <li>🕊️ Permanent Fly Anywhere – RM100</li>
-        <li>🎟️ Battlepass (5 Weeks) – RM25</li>
-        <li>💰 2000 Coins – RM15</li>
-        <li>🔑 x40 Common Key – RM15</li>
-        <li>🔑 x20 Rare Key – RM15</li>
-        <li>🔑 x12 Epic Key – <span class="highlight">RM12 (Discount)</span></li>
-        <li>🔑 x2 Spawner Key – RM12</li>
-      </ul>
-    </div>
+        <h3 style="font-family:Inter, sans-serif;margin-top:12px;color:var(--accent-2)">Other Perks</h3>
+        <ul>
+          <li>🕊️ Permanent Fly Anywhere – RM100</li>
+          <li>🎟️ Battlepass (5 Weeks) – RM25</li>
+          <li>💰 2000 Coins – RM15</li>
+          <li>🔑 x40 Common Key – RM15</li>
+          <li>🔑 x20 Rare Key – RM15</li>
+          <li>🔑 x12 Epic Key – <strong>RM12 (Discount)</strong></li>
+          <li>🔑 x2 Spawner Key – RM12</li>
+        </ul>
 
-    <div class="section">
-      <h2>📜 Purchase Policy</h2>
-      <ul>
-        <li>⚠️ All purchases are final and non-refundable.</li>
-        <li>⚠️ Once an order is placed, no cancellations, refunds, or changes will be accepted.</li>
-        <li>⚠️ This policy applies to all services, products, and transactions with DaisyDreams.</li>
-      </ul>
-    </div>
-
-    <div class="qr-section">
-      <h2>📱 QR Payment</h2>
-      <p>If you wish to make a payment outside of Shopee, simply scan the QR code below or open a ticket to request payment details (Wise, PayPal, and other options).</p>
-      <div class="qr-img">
-        <img src="https://i.imgur.com/PuWqXOJ.jpeg" alt="DaisyDreams QR Payment" />
+        <h2 style="margin-top:18px">📜 Purchase Policy</h2>
+        <ul>
+          <li>⚠️ All purchases are final and non-refundable</li>
+          <li>⚠️ Once an order is placed, no cancellations, refunds, or changes will be accepted</li>
+          <li>⚠️ This policy applies to all services, products, and transactions with DaisyDreams</li>
+        </ul>
       </div>
-      <p>After completing your payment, please open a ticket in our Discord server for verification:</p>
-      <p><a href="https://discord.gg/daisydreams" target="_blank">discord.gg/daisydreams</a></p>
-    </div>
 
-    <div class="footer-note">Thank you for supporting DaisyDreams and being part of our community! 💖</div>
+      <aside class="card">
+        <h2>📱 QR Payment</h2>
+        <p class="muted">Scan the QR below to pay. After payment, open a ticket in Discord for verification: <a href="https://discord.gg/daisydreams" target="_blank">discord.gg/daisydreams</a></p>
+        <div class="qr-wrap">
+          <div class="qr-img" id="qrImg">
+            <img src="https://i.imgur.com/PuWqXOJ.jpeg" alt="DaisyDreams QR Payment" id="qrInnerImg">
+          </div>
+          <div class="cta">
+            <button class="btn" onclick="window.open('https://discord.gg/daisydreams','_blank')">Open Discord</button>
+            <button class="btn ghost" onclick="copyDiscord()">Copy Discord Link</button>
+          </div>
+        </div>
+        <footer>Thank you for supporting DaisyDreams! 💖</footer>
+      </aside>
+    </section>
+  </main>
+
+  <div class="popup-overlay" id="popupOverlay" aria-hidden="true">
+    <div class="popup-card" id="popupCard">
+      <img class="popup-img" id="popupImg" src="https://i.imgur.com/PuWqXOJ.jpeg" alt="DaisyDreams QR Large">
+    </div>
   </div>
+
+  <script>
+    const layer = document.getElementById('particlesLayer');
+    const orbs = [];
+    const ORB_COUNT = 28;
+    const colors = [ 'rgba(46,204,113,0.12)', 'rgba(241,196,15,0.10)', 'rgba(46,204,113,0.08)', 'rgba(255,255,255,0.04)' ];
+
+    for(let i=0;i<ORB_COUNT;i++){
+      const el=document.createElement('span');
+      el.className='orb';
+      const size=36+Math.random()*140;
+      el.style.width=size+'px';
+      el.style.height=size+'px';
+      el.style.left=Math.random()*100+'vw';
+      el.style.top=Math.random()*100+'vh';
+      el.style.background=`radial-gradient(circle at 30% 30%, ${colors[i%colors.length]}, transparent 60%)`;
+      el.style.animation=`floatY ${12+Math.random()*18}s ease-in-out ${Math.random()*6}s infinite`;
+      el.style.opacity=0.8-Math.random()*0.45;
+      layer.appendChild(el);
+      orbs.push({el,x:parseFloat(el.style.left),y:parseFloat(el.style.top),size});
+    }
+
+    let mouseX=0.5,mouseY=0.5;
+    window.addEventListener('mousemove',e=>{mouseX=e.clientX/window.innerWidth;mouseY=e.clientY/window.innerHeight});
+    window.addEventListener('deviceorientation',ev=>{if(ev.gamma!==null){mouseX=0.5+ev.gamma/60;mouseY=0.5-ev.beta/120;}});
+
+    function tick(){
+      const centerX=mouseX-0.5;
+      const centerY=mouseY-0.5;
+      orbs.forEach(o=>{
+        const depth=o.size/200;
+        const offsetX=centerX*40*depth;
+        const offsetY=centerY*30*depth;
+        o.el.style.transform=`translate3d(${offsetX}px, ${offsetY}px,0)`;
+      });
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      orbs.forEach(o=>{o.el.style.animation='none';});
+    }
+
+    const qrImg=document.getElementById('qrImg');
+    const popupOverlay=document.getElementById('popupOverlay');
+    const popupCard=document.getElementById('popupCard');
+    qrImg.addEventListener('click',()=>{popupOverlay.classList.add('active');popupCard.classList.add('active');});
+    popupOverlay.addEventListener('click',e=>{if(e.target===popupOverlay){popupOverlay.classList.remove('active');popupCard.classList.remove('active');}});
+
+    function copyDiscord(){navigator.clipboard?.writeText('https://discord.gg/daisydreams').then(()=>{alert('Discord link copied — open it to create a ticket.')}).catch(()=>{alert('Copy failed — please open: discord.gg/daisydreams')});}
+  </script>
 </body>
 </html>
