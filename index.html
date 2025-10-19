@@ -16,88 +16,83 @@
       --muted:#9caaba;
       --text:#e7edf2;
       --policy-bg:rgba(255,255,255,0.04);
+      --hover-card:#1a1f2b;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0}
+    html,body{height:100%;margin:0;scroll-behavior:smooth}
     body{
       font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
       background:var(--bg);
       color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
       overflow-x:hidden;
     }
 
-    .particles-layer{
-      position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
-      background: radial-gradient(ellipse at center, rgba(255,255,255,0.02), transparent 30%);
-    }
-    .orb{
-      position:absolute;display:block;border-radius:50%;pointer-events:none;
-      mix-blend-mode:screen;
-      will-change:transform,opacity;
-      filter:blur(8px);
-      opacity:0.85;
-    }
+    /* Particles Layer */
+    .particles-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background: radial-gradient(ellipse at center, rgba(255,255,255,0.02), transparent 30%);}
+    .orb{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen;will-change:transform,opacity;filter:blur(8px);opacity:0.85;animation:floatY 12s ease-in-out infinite;}
+    @keyframes floatY{0%{transform:translateY(-6px)}50%{transform:translateY(6px)}100%{transform:translateY(-6px)}}
 
-    @keyframes floatY{
-      0%{transform:translateY(-6px)}
-      50%{transform:translateY(6px)}
-      100%{transform:translateY(-6px)}
-    }
+    /* Container & Layout */
+    .container{position:relative;z-index:2;max-width:960px;margin:48px auto;padding:36px;border-radius:14px;background:var(--panel);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04);box-shadow:0 30px 80px rgba(0,0,0,0.7)}
+    header{text-align:center;margin-bottom:28px;opacity:0;transform:translateY(20px);transition:all 0.8s ease-out}
+    header.visible{opacity:1;transform:translateY(0)}
+    header h1{font-size:32px;font-weight:700;color:var(--accent-2);margin-bottom:8px;letter-spacing:1px}
+    header p.lead{font-size:16px;color:var(--muted);line-height:1.6}
 
-    .container{position:relative;z-index:2;max-width:920px;margin:48px auto;padding:34px;border-radius:14px;background:var(--panel);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04);box-shadow:0 30px 80px rgba(0,0,0,0.7)}
-    header{text-align:center;margin-bottom:20px}
-    header h1{font-size:28px;font-weight:700;color:var(--accent);margin-bottom:6px}
-    header p.lead{font-size:16px;color:var(--muted);line-height:1.5}
-
-    .grid{display:grid;grid-template-columns:1fr 360px;gap:24px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:28px}
     @media(max-width:880px){.grid{grid-template-columns:1fr}}
 
-    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    h2{font-size:18px;font-weight:600;color:var(--accent-2);margin:16px 0 8px}
-    h3{font-size:15px;font-weight:500;margin:8px 0;color:var(--accent);letter-spacing:0.5px}
-    ul{margin:6px 0 0 18px;padding:0}
-    li{margin:6px 0;color:var(--text);line-height:1.45;position:relative;padding-left:12px}
+    /* Cards */
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:24px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);transition:all 0.3s ease, transform 0.4s ease;opacity:0;transform:translateY(20px)}
+    .card.visible{opacity:1;transform:translateY(0)}
+    .card:hover{background:var(--hover-card);box-shadow:0 25px 60px rgba(0,0,0,0.6);transform:translateY(-4px)}
+
+    h2{font-size:20px;font-weight:600;color:var(--accent-2);margin:20px 0 10px;letter-spacing:0.5px}
+    h3{font-size:16px;font-weight:500;margin:10px 0;color:var(--accent);letter-spacing:0.5px}
+    ul{margin:6px 0 0 20px;padding:0}
+    li{margin:6px 0;color:var(--text);line-height:1.45;position:relative;padding-left:14px;transition:all 0.2s ease}
+    li:hover{color:var(--accent)}
     li::before{content:'\2022';position:absolute;left:0;color:var(--accent-2);font-weight:bold}
     .muted{color:var(--muted);font-size:14px}
 
-    .policy-box{background:var(--policy-bg);padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.45;color:var(--muted);margin-top:12px}
-    .policy-header{margin-top:28px;margin-bottom:10px;font-size:17px;font-weight:600;color:var(--accent-2)}
+    .policy-box{background:var(--policy-bg);padding:16px 18px;border-radius:10px;font-size:13px;line-height:1.5;color:var(--muted);margin-top:12px;transition:all 0.3s ease}
+    .policy-header{margin-top:32px;margin-bottom:12px;font-size:18px;font-weight:600;color:var(--accent-2);letter-spacing:0.5px}
 
-    .qr-wrap{text-align:center;margin-top:16px}
-    .qr-img{width:260px;height:auto;margin:0 auto;border-radius:10px;overflow:hidden;border:3px solid rgba(255,255,255,0.04);box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer;display:block}
-    .qr-img img{width:100%;height:auto;display:block}
+    /* QR Section */
+    .qr-wrap{text-align:center;margin-top:18px;opacity:0;transform:translateY(20px);transition:all 0.8s ease-out}
+    .qr-wrap.visible{opacity:1;transform:translateY(0)}
+    .qr-img{width:280px;height:auto;margin:0 auto;border-radius:12px;overflow:hidden;border:3px solid rgba(255,255,255,0.05);box-shadow:0 12px 35px rgba(0,0,0,0.6);cursor:pointer;display:block;transition:all 0.3s ease}
+    .qr-img img{width:100%;height:auto;display:block;transition:all 0.3s ease}
+    .qr-img:hover{transform:scale(1.05);box-shadow:0 20px 60px rgba(0,0,0,0.7)}
 
-    .cta{display:flex;gap:8px;margin-top:12px}
-    .btn{flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),#1f8e4f);color:#04270f;font-weight:700;cursor:pointer;transition:all 0.2s ease}
-    .btn:hover{transform:translateY(-2px)}
+    .cta{display:flex;gap:10px;margin-top:16px}
+    .btn{flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),#1f8e4f);color:#04270f;font-weight:700;cursor:pointer;transition:all 0.25s ease}
+    .btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 12px 28px rgba(0,0,0,0.5)}
     .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
 
     footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
 
+    /* Popup */
     .popup-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,11,0.78);visibility:hidden;opacity:0;transition:opacity .35s ease,visibility .35s ease;z-index:80}
     .popup-overlay.active{visibility:visible;opacity:1}
     .popup-card{background:transparent;border-radius:12px;padding:12px;transform:scale(.8);transition:transform .35s cubic-bezier(.2,.9,.2,1);}
     .popup-card.active{transform:scale(1)}
     .popup-img{max-width:84vw;max-height:84vh;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,0.6);display:block}
 
-    @media (prefers-reduced-motion: reduce){
-      .orb{animation:none;filter:blur(6px)}
-    }
+    @media (prefers-reduced-motion: reduce){.orb{animation:none;filter:blur(6px)}}
   </style>
 </head>
 <body>
   <div class="particles-layer" id="particlesLayer" aria-hidden="true"></div>
 
   <main class="container" id="mainContent">
-    <header>
+    <header id="header">
       <h1>DaisyDreams Store</h1>
       <p class="lead">Support the server and unlock exclusive perks. After payment, open a ticket in Discord for verification.</p>
     </header>
 
     <section class="grid">
-      <div class="card">
+      <div class="card" data-animate>
         <h2>Payment Methods</h2>
         <p class="muted">Available options for your convenience:</p>
         <ul>
@@ -137,10 +132,10 @@
         </div>
       </div>
 
-      <aside class="card">
+      <aside class="card" data-animate>
         <h2>QR Payment</h2>
         <p class="muted">Scan the QR below to pay. After payment, open a ticket in Discord for verification: <a href="https://discord.gg/daisydreams" target="_blank">discord.gg/daisydreams</a></p>
-        <div class="qr-wrap">
+        <div class="qr-wrap" id="qrWrap">
           <div class="qr-img" id="qrImg">
             <img src="https://i.imgur.com/PuWqXOJ.jpeg" alt="DaisyDreams QR Payment" id="qrInnerImg">
           </div>
@@ -161,11 +156,11 @@
   </div>
 
   <script>
+    // Particles
     const layer = document.getElementById('particlesLayer');
     const orbs = [];
     const ORB_COUNT = 28;
     const colors = [ 'rgba(46,204,113,0.12)', 'rgba(241,196,15,0.10)', 'rgba(46,204,113,0.08)', 'rgba(255,255,255,0.04)' ];
-
     for(let i=0;i<ORB_COUNT;i++){
       const el=document.createElement('span');
       el.className='orb';
@@ -183,25 +178,15 @@
 
     let mouseX=0.5,mouseY=0.5;
     window.addEventListener('mousemove',e=>{mouseX=e.clientX/window.innerWidth;mouseY=e.clientY/window.innerHeight});
-    window.addEventListener('deviceorientation',ev=>{if(ev.gamma!==null){mouseX=0.5+ev.gamma/60;mouseY=0.5-ev.beta/120;}});
-
-    function tick(){
-      const centerX=mouseX-0.5;
-      const centerY=mouseY-0.5;
-      orbs.forEach(o=>{
-        const depth=o.size/200;
-        const offsetX=centerX*40*depth;
-        const offsetY=centerY*30*depth;
-        o.el.style.transform=`translate3d(${offsetX}px, ${offsetY}px,0)`;
-      });
-      requestAnimationFrame(tick);
-    }
+    function tick(){const centerX=mouseX-0.5;const centerY=mouseY-0.5;orbs.forEach(o=>{const depth=o.size/200;const offsetX=centerX*40*depth;const offsetY=centerY*30*depth;o.el.style.transform=`translate3d(${offsetX}px, ${offsetY}px,0)`;});requestAnimationFrame(tick);}
     requestAnimationFrame(tick);
 
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      orbs.forEach(o=>{o.el.style.animation='none';});
-    }
+    // Fade-in animation on scroll
+    const animatedElements=document.querySelectorAll('[data-animate],#header,#qrWrap');
+    const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}});},{threshold:0.15});
+    animatedElements.forEach(el=>observer.observe(el));
 
+    // QR popup
     const qrImg=document.getElementById('qrImg');
     const popupOverlay=document.getElementById('popupOverlay');
     const popupCard=document.getElementById('popupCard');
