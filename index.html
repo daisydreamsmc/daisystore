@@ -32,12 +32,19 @@ a{color:inherit;text-decoration:none;}
   z-index:2;
 }
 header{text-align:center;margin-bottom:30px;}
-header h1{
-  font-size:40px;
-  background:linear-gradient(90deg,#2ecc71,#1abc9c);
-  -webkit-background-clip:text;
-  color:transparent;
-  letter-spacing:1px;
+header h1 {
+  font-size: 48px;
+  background: linear-gradient(270deg, #f1c40f, #2ecc71, #1abc9c, #9b59b6);
+  background-size: 600% 600%;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 1px;
+  animation: gradientFlow 10s ease infinite;
+}
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 header p{
   color:var(--muted);
@@ -226,27 +233,110 @@ After completing your payment, please open a ticket in the <span class="highligh
 </div>
 
 <script>
-// Particles animation
+// Canvas setup
 const canvas=document.getElementById('particlesCanvas');
 const ctx=canvas.getContext('2d');
 let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;
 window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;});
-class Particle{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*4+1;this.dx=(Math.random()-0.5)*0.6;this.dy=(Math.random()-0.5)*0.6;this.color=`rgba(46,204,113,${Math.random()*0.4+0.05})`;}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}update(mouse){this.x+=this.dx; this.y+=this.dy;if(this.x<0||this.x>W)this.dx*=-1;if(this.y<0||this.y>H)this.dy*=-1;if(mouse.x && mouse.y){let dist=Math.hypot(this.x-mouse.x,this.y-mouse.y);if(dist<100){let angle=Math.atan2(this.y-mouse.y,this.x-mouse.x);let force=(100-dist)/100;this.x+=Math.cos(angle)*force*4;this.y+=Math.sin(angle)*force*4;}}this.draw();}}
-let particles=[];for(let i=0;i<350;i++)particles.push(new Particle());
-class Orb{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*30+10;this.dx=(Math.random()-0.5)*0.1;this.dy=(Math.random()-0.5)*0.1;this.color=`rgba(46,204,113,0.05)`;}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}update(){this.x+=this.dx; this.y+=this.dy;if(this.x<0||this.x>W)this.dx*=-1;if(this.y<0||this.y>H)this.dy*=-1;this.draw();}}
-let orbs=[];for(let i=0;i<15;i++)orbs.push(new Orb());
+
+// Floating particles
+class Particle{
+  constructor(){
+    this.x=Math.random()*W;
+    this.y=Math.random()*H;
+    this.r=Math.random()*3+1;
+    this.dx=(Math.random()-0.5)*0.4;
+    this.dy=(Math.random()-0.5)*0.4;
+    this.color=`rgba(46,204,113,${Math.random()*0.4+0.05})`;
+  }
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=this.color;
+    ctx.fill();
+  }
+  update(mouse){
+    this.x+=this.dx; this.y+=this.dy;
+    if(this.x<0||this.x>W) this.dx*=-1;
+    if(this.y<0||this.y>H) this.dy*=-1;
+    if(mouse.x && mouse.y){
+      let dist=Math.hypot(this.x-mouse.x,this.y-mouse.y);
+      if(dist<100){
+        let angle=Math.atan2(this.y-mouse.y,this.x-mouse.x);
+        let force=(100-dist)/100;
+        this.x+=Math.cos(angle)*force*4;
+        this.y+=Math.sin(angle)*force*4;
+      }
+    }
+    this.draw();
+  }
+}
+let particles=[]; for(let i=0;i<200;i++) particles.push(new Particle());
+
+// Twinkling Stars ✨
+class Star {
+  constructor() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.size = Math.random() * 2 + 0.5;
+    this.twinkle = Math.random() * 0.02 + 0.01;
+    this.opacity = Math.random();
+    this.angle = Math.random() * 2 * Math.PI;
+    this.speed = Math.random() * 0.02;
+  }
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.beginPath();
+    for (let i = 0; i < 5; i++) {
+      ctx.lineTo(Math.cos((18 + i * 72) / 180 * Math.PI) * this.size * 3,
+                 -Math.sin((18 + i * 72) / 180 * Math.PI) * this.size * 3);
+      ctx.lineTo(Math.cos((54 + i * 72) / 180 * Math.PI) * this.size,
+                 -Math.sin((54 + i * 72) / 180 * Math.PI) * this.size);
+    }
+    ctx.closePath();
+    ctx.fillStyle = `rgba(241,196,15,${this.opacity})`;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
+    ctx.fill();
+    ctx.restore();
+  }
+  update() {
+    this.opacity += this.twinkle * (Math.random() > 0.5 ? 1 : -1);
+    if (this.opacity < 0.1) this.opacity = 0.1;
+    if (this.opacity > 1) this.opacity = 1;
+    this.angle += this.speed;
+    this.x += Math.sin(this.angle) * 0.1;
+    this.y += Math.cos(this.angle) * 0.1;
+    this.draw();
+  }
+}
+let stars = []; for (let i = 0; i < 100; i++) stars.push(new Star());
+
 const mouse={x:null,y:null};
 window.addEventListener('mousemove',(e)=>{mouse.x=e.clientX;mouse.y=e.clientY;});
 window.addEventListener('mouseout',()=>{mouse.x=null;mouse.y=null;});
-function animate(){ctx.clearRect(0,0,W,H);orbs.forEach(o=>o.update());particles.forEach(p=>p.update(mouse));requestAnimationFrame(animate);}
+
+function animate(){
+  ctx.clearRect(0,0,W,H);
+  stars.forEach(s=>s.update());
+  particles.forEach(p=>p.update(mouse));
+  requestAnimationFrame(animate);
+}
 animate();
 
 // Scroll reveal
-const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}})},{threshold:0.2});
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('visible'); }
+  });
+},{threshold:0.2});
 document.querySelectorAll('[data-animate]').forEach(el=>observer.observe(el));
 
 // QR popup
-const qrImg=document.getElementById('qrImg');const overlay=document.getElementById('popupOverlay');
+const qrImg=document.getElementById('qrImg');
+const overlay=document.getElementById('popupOverlay');
 qrImg.addEventListener('click',()=>{overlay.classList.add('active');});
 overlay.addEventListener('click',()=>{overlay.classList.remove('active');});
 </script>
