@@ -4,215 +4,323 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DaisyStore</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#04050a;
-  --panel:rgba(10,14,20,0.9);
-  --accent:#2ecc71;
-  --accent-2:#f1c40f;
-  --muted:#9caaba;
-  --text:#e7edf2;
-  --policy-bg:rgba(255,255,255,0.04);
+:root {
+  --bg:#070707;
+  --panel:rgba(20,20,20,0.85);
+  --accent:#dd9d3b;
+  --accent-light:#f1c96b;
+  --muted:#aaa;
+  --text:#f5f5f5;
+  --border:rgba(255,255,255,0.08);
+  --glow:0 0 18px rgba(221,157,59,0.4);
 }
+
 *{box-sizing:border-box;margin:0;padding:0;}
 body,html{
-  font-family:Inter,sans-serif;
-  background: radial-gradient(circle at top left, #04050a 0%, #010114 100%);
+  font-family:'Inter',sans-serif;
+  background:radial-gradient(circle at top left,#0a0a0a 0%,#000 100%);
   color:var(--text);
-  overflow-x:hidden;
   scroll-behavior:smooth;
+  overflow-x:hidden;
+  line-height:1.7;
+  letter-spacing:0.2px;
 }
+
+/* Navbar */
+.navbar {
+  position:fixed;
+  top:0;left:0;right:0;
+  background:rgba(10,10,10,0.7);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  z-index:10;
+}
+.nav-inner{
+  max-width:1000px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 24px;
+}
+.logo{
+  font-weight:700;
+  font-size:18px;
+  color:var(--accent-light);
+}
+.nav-links a{
+  margin-left:18px;
+  color:var(--accent-light);
+  font-weight:500;
+  transition:color 0.3s ease;
+}
+.nav-links a:hover{color:#fff;}
+
+body{padding-top:60px;}
+
 a{color:inherit;text-decoration:none;}
+
 .container{
-  max-width:960px;
-  margin:50px auto;
+  max-width:980px;
+  margin:60px auto;
   padding:30px;
   position:relative;
   z-index:2;
 }
-header{text-align:center;margin-bottom:30px;}
-header h1 {
-  font-size: 48px;
-  background: linear-gradient(270deg, #f1c40f, #2ecc71, #1abc9c, #9b59b6);
-  background-size: 600% 600%;
-  -webkit-background-clip: text;
-  color: transparent;
-  letter-spacing: 1px;
-  animation: gradientFlow 10s ease infinite;
+
+header{text-align:center;margin-bottom:40px;}
+header h1{
+  font-size:52px;
+  font-weight:700;
+  background:linear-gradient(90deg,var(--accent),var(--accent-light),#fff,var(--accent));
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  color:transparent;
+  animation:titleFlow 5s linear infinite;
+  letter-spacing:1px;
+  text-shadow:0 0 25px rgba(221,157,59,0.35),0 0 45px rgba(221,157,59,0.15);
 }
-@keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+@keyframes titleFlow{
+  0%{background-position:-100% 0;}
+  50%{background-position:200% 0;}
+  100%{background-position:-100% 0;}
 }
 header p{
-  color:var(--muted);
   font-size:16px;
-  margin-top:6px;
+  color:var(--muted);
+  margin-top:8px;
+  letter-spacing:0.3px;
 }
 
-/* Grid layout (auto height on right) */
-.grid {
-  display: grid;
-  grid-template-columns: 1fr minmax(320px, 360px);
-  gap: 24px;
-  align-items: flex-start;
+/* Layout grid */
+.grid{
+  display:grid;
+  grid-template-columns:1fr minmax(320px,360px);
+  gap:26px;
+  align-items:flex-start;
 }
 @media(max-width:880px){.grid{grid-template-columns:1fr;}}
 
+/* Cards */
 .card{
-  background:var(--panel);
-  border-radius:14px;
-  padding:24px;
-  backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.05);
-  transition:all 0.4s ease;
-  opacity:0; transform:translateY(30px);
+  background:linear-gradient(145deg,rgba(20,20,20,0.85),rgba(15,15,15,0.65));
+  border-radius:16px;
+  padding:26px;
+  border:1px solid rgba(255,255,255,0.06);
+  backdrop-filter:blur(16px) saturate(140%);
+  transition:transform 0.4s ease,box-shadow 0.4s ease,opacity 0.6s ease;
+  opacity:0;
+  transform:translateY(30px);
+  box-shadow:0 4px 30px rgba(0,0,0,0.4);
 }
-.card.visible{opacity:1; transform:translateY(0);}
+.card.visible{opacity:1;transform:translateY(0);}
 .card:hover{
-  transform: translateY(-6px);
-  box-shadow:0 12px 25px rgba(0,0,0,0.4);
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 0 25px rgba(221,157,59,0.5);
 }
 
-h2{color:var(--accent-2); margin:18px 0 10px; font-size:20px;}
-h3{color:var(--accent); margin:14px 0; font-size:17px;}
-ul{list-style:none;padding-left:20px;}
-li{position:relative;padding-left:14px;margin:6px 0;color:var(--text);}
-li::before{content:'•';position:absolute;left:0;color:var(--accent-2);}
+/* Headings */
+h2{
+  color:var(--accent-light);
+  margin:20px 0 10px;
+  font-size:21px;
+  font-weight:600;
+}
+h3{
+  color:var(--accent);
+  margin:16px 0 8px;
+  font-size:17px;
+  font-weight:600;
+}
 
-/* Table styling */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-  background: rgba(255,255,255,0.02);
-  border-radius: 10px;
-  overflow: hidden;
-  font-size: 15px;
+/* Lists */
+ul{list-style:none;padding-left:18px;}
+li{
+  position:relative;
+  padding-left:14px;
+  margin:6px 0;
+  color:var(--text);
+  font-size:15px;
 }
-th, td {
-  padding: 12px 16px;
-  text-align: left;
+li::before{
+  content:'•';
+  position:absolute;
+  left:0;
+  color:var(--accent);
 }
-th {
-  background: rgba(46,204,113,0.15);
-  color: var(--accent);
-  font-weight: 600;
+
+/* Table */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+  background:rgba(255,255,255,0.02);
+  border-radius:10px;
+  overflow:hidden;
+  font-size:15px;
 }
-tr {
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+th,td{
+  padding:12px 16px;
+  text-align:left;
+  border-bottom:1px solid rgba(255,255,255,0.05);
 }
-tr:last-child { border-bottom: none; }
-tr:hover {
-  background: rgba(46,204,113,0.08);
-  transition: background 0.3s ease;
+th{
+  background:rgba(221,157,59,0.1);
+  color:var(--accent);
+  font-weight:600;
+  letter-spacing:0.3px;
+}
+tr:last-child td{border-bottom:none;}
+tr:hover{
+  background:rgba(221,157,59,0.08);
+  transition:background 0.3s ease;
 }
 
 /* Buttons */
 .btn{
+  position:relative;
   width:100%;
-  margin-top:12px;
-  padding:12px;
+  margin-top:14px;
+  padding:13px;
   border-radius:10px;
   border:none;
-  background:linear-gradient(270deg,var(--accent),#1f8e4f);
-  color:#04270f;
   font-weight:600;
+  background:linear-gradient(270deg,var(--accent),#b47a1c);
+  color:#fff;
   cursor:pointer;
   transition:all 0.3s ease;
   background-size:200% 200%;
+  overflow:hidden;
 }
 .btn:hover{
   background-position:100% 0;
   transform:translateY(-2px);
-  box-shadow:0 0 15px rgba(46,204,113,0.5);
+  box-shadow:0 0 20px rgba(221,157,59,0.4);
 }
+.btn::after{
+  content:"";
+  position:absolute;
+  top:0;left:-100%;
+  width:100%;height:100%;
+  background:rgba(255,255,255,0.15);
+  transition:left 0.3s ease;
+}
+.btn:hover::after{left:100%;}
 
+/* QR and payment */
 .payment-instructions{
-  background: rgba(46,204,113,0.05);
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 15px;
-  line-height: 1.6;
-  color: #e7edf2;
-  text-align: center;
-  border: 1px solid rgba(46,204,113,0.2);
+  background:rgba(221,157,59,0.06);
+  padding:14px 16px;
+  border-radius:10px;
+  font-size:15px;
+  line-height:1.6;
+  color:var(--text);
+  text-align:center;
+  border:1px solid rgba(221,157,59,0.25);
 }
 .payment-instructions .highlight{
-  color: #2ecc71;
-  font-weight: 600;
+  color:var(--accent-light);
+  font-weight:600;
 }
-
-.qr-wrap{text-align:center;margin-top:18px;}
+.qr-wrap{text-align:center;margin-top:20px;}
 .qr-img{
   width:240px;
   margin:0 auto;
   border-radius:12px;
   overflow:hidden;
   cursor:pointer;
-  border:2px solid rgba(255,255,255,0.05);
-  background:#0a0c14;
+  border:1px solid rgba(221,157,59,0.15);
+  background:#111;
   padding:8px;
   transition:all 0.3s ease;
 }
 .qr-img img{width:100%;border-radius:8px;}
 .qr-img:hover{
   transform:scale(1.05);
-  box-shadow:0 0 20px rgba(46,204,113,0.3);
+  box-shadow:var(--glow);
 }
 
-.policy-header{margin-top:28px;margin-bottom:10px;font-size:18px;font-weight:600;color:var(--accent-2);}
+/* Policy */
+.policy-header{
+  margin-top:28px;
+  margin-bottom:10px;
+  font-size:18px;
+  font-weight:600;
+  color:var(--accent-light);
+}
 .policy-box{
-  background:var(--policy-bg);
+  background:rgba(255,255,255,0.03);
   padding:14px 16px;
   border-radius:10px;
   font-size:13px;
   line-height:1.5;
   color:var(--muted);
+  border:1px solid rgba(255,255,255,0.05);
 }
+
 footer{
   text-align:center;
   color:var(--muted);
   font-size:13px;
-  margin-top:14px;
+  margin-top:16px;
 }
 
-/* Background gradient animation */
-.animated-bg {
-  position: fixed;
+/* Background motion */
+.animated-bg{
+  position:fixed;
   top:0;left:0;right:0;bottom:0;
   z-index:0;
-  background: linear-gradient(-45deg, #02030c, #02121b, #031b0f, #05021a);
-  background-size: 400% 400%;
-  animation: bgMotion 20s ease infinite;
+  background:linear-gradient(-45deg,#000,#0a0906,#1a1407,#000);
+  background-size:400% 400%;
+  animation:bgShift 25s ease infinite;
 }
-@keyframes bgMotion {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+@keyframes bgShift{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* Floating gold particles */
+#particles{
+  position:fixed;
+  top:0;left:0;width:100%;height:100%;
+  z-index:0;
+  pointer-events:none;
 }
 </style>
 </head>
 <body>
 
+<canvas id="particles"></canvas>
 <div class="animated-bg"></div>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <span class="logo">🌼 DaisyStore</span>
+    <div class="nav-links">
+      <a href="https://wiki.daisydreams.xyz" target="_blank">Wiki</a>
+      <a href="https://discord.gg/daisydreams" target="_blank">Discord</a>
+    </div>
+  </div>
+</nav>
 
 <main class="container">
 <header>
 <h1>DaisyStore</h1>
-<p>Unlock exclusive perks and support the server</p>
+<p>Unlock exclusive perks & support the DaisyDreams server</p>
 </header>
 
 <section class="grid">
+<!-- LEFT CARD -->
 <div class="card" data-animate>
 <h2>💳 Payment Methods</h2>
 <ul>
-<li>Touch n Go</li>
-<li>QR Pay</li>
-<li>Wise* (open ticket)</li>
-<li>PayPal* (open ticket)</li>
+  <li>Touch n Go</li>
+  <li>QR Pay</li>
+  <li>Wise* (open ticket)</li>
+  <li>PayPal* (open ticket)</li>
 </ul>
 
 <h2>🎁 Available Products</h2>
@@ -227,7 +335,7 @@ footer{
   <tr><td>King</td><td>RM55</td></tr>
 </table>
 
-<button class="btn" onclick="window.open('https://wiki.daisydreams.xyz/info/player-ranks','_blank')">View Benefit Ranks</button>
+<button class="btn" onclick="window.open('https://wiki.daisydreams.xyz/info/player-ranks','_blank')">View Rank Benefits</button>
 
 <h3>⚡ Other Perks</h3>
 <table>
@@ -244,53 +352,79 @@ footer{
 <h2 class="policy-header">Purchase Policy</h2>
 <div class="policy-box">
 <p>All purchases are final and non-refundable.</p>
-<p>Once an order is placed, no cancellations, refunds, or changes will be accepted.</p>
-<p>This policy applies to all services, products, and transactions with DaisyDreams.</p>
+<p>No cancellations, refunds, or modifications once order is confirmed.</p>
+<p>This applies to all DaisyDreams services and transactions.</p>
 </div>
 </div>
 
-<!-- RIGHT CARD - auto height, compact -->
-<aside class="card" data-animate style="align-self:start;">
+<!-- RIGHT CARD -->
+<aside class="card" data-animate>
 <h2>📲 QR Payment</h2>
 <p class="payment-instructions">
-After completing your payment, please open a ticket in the <span class="highlight">DaisyDreams Discord server</span> and provide your <span class="highlight">Minecraft username</span>, <span class="highlight">purchase remark</span> and <span class="highlight">quantity</span> of items purchased.
+After making payment, please open a ticket on <span class="highlight">DaisyDreams Discord</span> and include your <span class="highlight">Minecraft username</span>, <span class="highlight">purchase remark</span>, and <span class="highlight">quantity</span>.
 </p>
 
 <div class="qr-wrap">
 <div class="qr-img" id="qrImg">
-<img src="https://i.imgur.com/LqKbApH.jpeg" alt="QR Payment">
+  <img src="https://i.imgur.com/LqKbApH.jpeg" alt="QR Payment">
 </div>
 <button class="btn" onclick="window.open('https://discord.gg/daisydreams','_blank')">Open Discord Ticket</button>
 </div>
-<footer>Thank you for supporting DaisyDreams! 💖</footer>
+<footer>Thank you for supporting DaisyDreams! 💛</footer>
 </aside>
 </section>
 </main>
 
 <script>
-// Scroll reveal animation
+// Scroll reveal
 const observer=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
-    if(e.isIntersecting){ e.target.classList.add('visible'); }
+    if(e.isIntersecting)e.target.classList.add('visible');
   });
 },{threshold:0.2});
-document.querySelectorAll('[data-animate]').forEach(el=>observer.observe(el));
+document.querySelectorAll('[data-animate]').forEach((el,i)=>{
+  observer.observe(el);
+  el.style.transitionDelay=`${i*0.15}s`;
+});
 
-// Simple QR popup
-const qrImg=document.getElementById('qrImg');
-qrImg.addEventListener('click',()=>{
+// QR popup
+const qr=document.getElementById('qrImg');
+qr.addEventListener('click',()=>{
   const overlay=document.createElement('div');
-  overlay.style.position='fixed';
-  overlay.style.inset='0';
-  overlay.style.background='rgba(0,0,0,0.8)';
-  overlay.style.display='flex';
-  overlay.style.alignItems='center';
-  overlay.style.justifyContent='center';
-  overlay.style.zIndex='100';
-  overlay.innerHTML=`<img src="${qrImg.querySelector('img').src}" style="max-width:80vw;max-height:80vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.6)">`;
+  overlay.style.cssText=`
+    position:fixed;inset:0;
+    background:rgba(0,0,0,0.85);
+    display:flex;align-items:center;justify-content:center;
+    z-index:200;backdrop-filter:blur(5px);
+  `;
+  overlay.innerHTML=`<img src="${qr.querySelector('img').src}" style="max-width:80vw;max-height:80vh;border-radius:10px;box-shadow:${'0 0 25px rgba(221,157,59,0.4)'}">`;
   document.body.appendChild(overlay);
   overlay.addEventListener('click',()=>overlay.remove());
 });
+
+// Floating gold particles
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+let w,h,particles=[];
+function resize(){w=canvas.width=innerWidth;h=canvas.height=innerHeight;}
+window.addEventListener('resize',resize);resize();
+for(let i=0;i<30;i++){
+  particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+0.5,dx:(Math.random()-0.5)*0.5,dy:(Math.random()-0.5)*0.5});
+}
+function animate(){
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='rgba(221,157,59,0.3)';
+  particles.forEach(p=>{
+    p.x+=p.dx;p.y+=p.dy;
+    if(p.x<0||p.x>w)p.dx*=-1;
+    if(p.y<0||p.y>h)p.dy*=-1;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
 </script>
 </body>
 </html>
