@@ -60,8 +60,6 @@ body,html{
 
 body{padding-top:60px;}
 
-a{color:inherit;text-decoration:none;}
-
 .container{
   max-width:980px;
   margin:60px auto;
@@ -70,58 +68,74 @@ a{color:inherit;text-decoration:none;}
   z-index:2;
 }
 
-header{text-align:center;margin-bottom:40px;}
-header h1{
-  font-size:52px;
-  font-weight:700;
-  background:linear-gradient(90deg,var(--accent),var(--accent-light),#fff,var(--accent));
-  background-size:200% auto;
-  -webkit-background-clip:text;
-  color:transparent;
-  animation:titleFlow 5s linear infinite;
-  letter-spacing:1px;
-  text-shadow:0 0 25px rgba(221,157,59,0.35),0 0 45px rgba(221,157,59,0.15);
+/* Header Section */
+header{
+  text-align:center;
+  margin-bottom:60px;
+  position:relative;
 }
-@keyframes titleFlow{
-  0%{background-position:-100% 0;}
-  50%{background-position:200% 0;}
-  100%{background-position:-100% 0;}
+header::before{
+  content:"";
+  position:absolute;
+  top:-50px;left:50%;
+  width:380px;height:220px;
+  background:url('https://cdn.tebex.io/store/996084/templates/122940/assets/e5691476dd3033924a6e0478b1bdb6f168484383.png') no-repeat center/contain;
+  transform:translateX(-50%) translateY(10px);
+  z-index:1;
+  opacity:0.55; /* lebih cerah */
+  filter:blur(3px);
+  animation:float 6s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateX(-50%) translateY(10px);}
+  50%{transform:translateX(-50%) translateY(-8px);}
+}
+header h1{
+  font-size:48px;
+  font-weight:700;
+  color:var(--accent-light);
+  position:relative;
+  z-index:2;
+  letter-spacing:1.5px;
+  -webkit-text-stroke:1px rgba(221,157,59,0.7);
+  text-shadow:
+    0 0 10px rgba(221,157,59,0.5),
+    0 0 20px rgba(221,157,59,0.4),
+    0 2px 3px rgba(0,0,0,0.8);
 }
 header p{
-  font-size:16px;
+  font-size:15px;
   color:var(--muted);
-  margin-top:8px;
+  margin-top:12px;
   letter-spacing:0.3px;
+  z-index:2;
+  position:relative;
 }
 
-/* Layout grid */
+/* Grid */
 .grid{
   display:grid;
   grid-template-columns:1fr minmax(320px,360px);
   gap:26px;
-  align-items:flex-start;
 }
 @media(max-width:880px){.grid{grid-template-columns:1fr;}}
 
-/* Cards */
+/* Card */
 .card{
   background:linear-gradient(145deg,rgba(20,20,20,0.85),rgba(15,15,15,0.65));
   border-radius:16px;
   padding:26px;
   border:1px solid rgba(255,255,255,0.06);
-  backdrop-filter:blur(16px) saturate(140%);
-  transition:transform 0.4s ease,box-shadow 0.4s ease,opacity 0.6s ease;
-  opacity:0;
-  transform:translateY(30px);
+  backdrop-filter:blur(16px);
   box-shadow:0 4px 30px rgba(0,0,0,0.4);
+  transition:transform 0.4s ease,box-shadow 0.4s ease;
 }
-.card.visible{opacity:1;transform:translateY(0);}
 .card:hover{
-  transform:translateY(-8px) scale(1.02);
+  transform:translateY(-6px);
   box-shadow:0 0 25px rgba(221,157,59,0.5);
 }
 
-/* Headings */
+/* Titles */
 h2{
   color:var(--accent-light);
   margin:20px 0 10px;
@@ -170,17 +184,11 @@ th{
   background:rgba(221,157,59,0.1);
   color:var(--accent);
   font-weight:600;
-  letter-spacing:0.3px;
 }
-tr:last-child td{border-bottom:none;}
-tr:hover{
-  background:rgba(221,157,59,0.08);
-  transition:background 0.3s ease;
-}
+tr:hover{background:rgba(221,157,59,0.08);}
 
 /* Buttons */
 .btn{
-  position:relative;
   width:100%;
   margin-top:14px;
   padding:13px;
@@ -192,24 +200,14 @@ tr:hover{
   cursor:pointer;
   transition:all 0.3s ease;
   background-size:200% 200%;
-  overflow:hidden;
 }
 .btn:hover{
   background-position:100% 0;
   transform:translateY(-2px);
   box-shadow:0 0 20px rgba(221,157,59,0.4);
 }
-.btn::after{
-  content:"";
-  position:absolute;
-  top:0;left:-100%;
-  width:100%;height:100%;
-  background:rgba(255,255,255,0.15);
-  transition:left 0.3s ease;
-}
-.btn:hover::after{left:100%;}
 
-/* QR and payment */
+/* QR */
 .payment-instructions{
   background:rgba(221,157,59,0.06);
   padding:14px 16px;
@@ -237,29 +235,9 @@ tr:hover{
   transition:all 0.3s ease;
 }
 .qr-img img{width:100%;border-radius:8px;}
-.qr-img:hover{
-  transform:scale(1.05);
-  box-shadow:var(--glow);
-}
+.qr-img:hover{transform:scale(1.05);box-shadow:var(--glow);}
 
-/* Policy */
-.policy-header{
-  margin-top:28px;
-  margin-bottom:10px;
-  font-size:18px;
-  font-weight:600;
-  color:var(--accent-light);
-}
-.policy-box{
-  background:rgba(255,255,255,0.03);
-  padding:14px 16px;
-  border-radius:10px;
-  font-size:13px;
-  line-height:1.5;
-  color:var(--muted);
-  border:1px solid rgba(255,255,255,0.05);
-}
-
+/* Footer */
 footer{
   text-align:center;
   color:var(--muted);
@@ -267,7 +245,7 @@ footer{
   margin-top:16px;
 }
 
-/* Background motion */
+/* Background animation */
 .animated-bg{
   position:fixed;
   top:0;left:0;right:0;bottom:0;
@@ -281,19 +259,10 @@ footer{
   50%{background-position:100% 50%;}
   100%{background-position:0% 50%;}
 }
-
-/* Floating gold particles */
-#particles{
-  position:fixed;
-  top:0;left:0;width:100%;height:100%;
-  z-index:0;
-  pointer-events:none;
-}
 </style>
 </head>
 <body>
 
-<canvas id="particles"></canvas>
 <div class="animated-bg"></div>
 
 <nav class="navbar">
@@ -313,8 +282,7 @@ footer{
 </header>
 
 <section class="grid">
-<!-- LEFT CARD -->
-<div class="card" data-animate>
+<div class="card">
 <h2>💳 Payment Methods</h2>
 <ul>
   <li>Touch n Go</li>
@@ -324,7 +292,6 @@ footer{
 </ul>
 
 <h2>🎁 Available Products</h2>
-
 <h3>Ranks (1 Month)</h3>
 <table>
   <tr><th>Rank</th><th>Price</th></tr>
@@ -348,17 +315,9 @@ footer{
   <tr><td>x12 Epic Key</td><td>RM15</td></tr>
   <tr><td>x2 Spawner Key</td><td>RM15</td></tr>
 </table>
-
-<h2 class="policy-header">Purchase Policy</h2>
-<div class="policy-box">
-<p>All purchases are final and non-refundable.</p>
-<p>No cancellations, refunds, or modifications once order is confirmed.</p>
-<p>This applies to all DaisyDreams services and transactions.</p>
-</div>
 </div>
 
-<!-- RIGHT CARD -->
-<aside class="card" data-animate>
+<aside class="card">
 <h2>📲 QR Payment</h2>
 <p class="payment-instructions">
 After making payment, please open a ticket on <span class="highlight">DaisyDreams Discord</span> and include your <span class="highlight">Minecraft username</span>, <span class="highlight">purchase remark</span>, and <span class="highlight">quantity</span>.
@@ -376,17 +335,6 @@ After making payment, please open a ticket on <span class="highlight">DaisyDream
 </main>
 
 <script>
-// Scroll reveal
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting)e.target.classList.add('visible');
-  });
-},{threshold:0.2});
-document.querySelectorAll('[data-animate]').forEach((el,i)=>{
-  observer.observe(el);
-  el.style.transitionDelay=`${i*0.15}s`;
-});
-
 // QR popup
 const qr=document.getElementById('qrImg');
 qr.addEventListener('click',()=>{
@@ -397,34 +345,10 @@ qr.addEventListener('click',()=>{
     display:flex;align-items:center;justify-content:center;
     z-index:200;backdrop-filter:blur(5px);
   `;
-  overlay.innerHTML=`<img src="${qr.querySelector('img').src}" style="max-width:80vw;max-height:80vh;border-radius:10px;box-shadow:${'0 0 25px rgba(221,157,59,0.4)'}">`;
+  overlay.innerHTML=`<img src="${qr.querySelector('img').src}" style="max-width:80vw;max-height:80vh;border-radius:10px;box-shadow:0 0 25px rgba(221,157,59,0.4)">`;
   document.body.appendChild(overlay);
   overlay.addEventListener('click',()=>overlay.remove());
 });
-
-// Floating gold particles
-const canvas=document.getElementById('particles');
-const ctx=canvas.getContext('2d');
-let w,h,particles=[];
-function resize(){w=canvas.width=innerWidth;h=canvas.height=innerHeight;}
-window.addEventListener('resize',resize);resize();
-for(let i=0;i<30;i++){
-  particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+0.5,dx:(Math.random()-0.5)*0.5,dy:(Math.random()-0.5)*0.5});
-}
-function animate(){
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle='rgba(221,157,59,0.3)';
-  particles.forEach(p=>{
-    p.x+=p.dx;p.y+=p.dy;
-    if(p.x<0||p.x>w)p.dx*=-1;
-    if(p.y<0||p.y>h)p.dy*=-1;
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-  });
-  requestAnimationFrame(animate);
-}
-animate();
 </script>
 </body>
 </html>
