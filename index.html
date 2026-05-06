@@ -1,821 +1,971 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DaisyStore — DaisyDreams</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --gold: #f0c040;
-    --gold-dim: #c8963a;
-    --gold-glow: rgba(240,192,64,0.18);
-    --bg: #0d0e13;
-    --bg2: #13151e;
-    --bg3: #1a1d2a;
-    --bg4: #212436;
-    --border: rgba(240,192,64,0.15);
-    --border-bright: rgba(240,192,64,0.4);
-    --text: #e8e4d8;
-    --muted: #8a8577;
-    --green: #4ade80;
-    --blue: #60a5fa;
-    --purple: #a78bfa;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Outfit', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Stars BG */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,0.35) 0%, transparent 100%),
-      radial-gradient(1px 1px at 10% 70%, rgba(255,255,255,0.25) 0%, transparent 100%),
-      radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 35% 15%, rgba(255,255,255,0.2) 0%, transparent 100%),
-      radial-gradient(1px 1px at 65% 45%, rgba(255,255,255,0.25) 0%, transparent 100%),
-      radial-gradient(1px 1px at 25% 90%, rgba(255,255,255,0.2) 0%, transparent 100%),
-      radial-gradient(1px 1px at 75% 85%, rgba(255,255,255,0.2) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* NAV */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(13,14,19,0.85);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-  }
-
-  .nav-logo {
-    font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    color: var(--gold);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-  }
-
-  .nav-logo .daisy-icon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 1.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.88rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--gold); }
-
-  .btn-discord {
-    background: #5865F2;
-    color: #fff;
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: opacity 0.2s, transform 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-
-  .btn-discord:hover { opacity: 0.85; transform: translateY(-1px); }
-
-  /* HERO */
-  .hero {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 90px 2rem 70px;
-    max-width: 860px;
-    margin: 0 auto;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: var(--gold-glow);
-    border: 1px solid var(--border-bright);
-    border-radius: 999px;
-    padding: 6px 16px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--gold);
-    margin-bottom: 28px;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .hero h1 {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(2.4rem, 6vw, 4rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: 0.02em;
-    color: #fff;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-
-  .hero h1 span {
-    color: var(--gold);
-    display: block;
-  }
-
-  .hero-sub {
-    margin-top: 18px;
-    font-size: 1.05rem;
-    color: var(--muted);
-    font-weight: 300;
-    line-height: 1.7;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-
-  .hero-actions {
-    margin-top: 36px;
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-    animation: fadeUp 0.6s 0.3s ease both;
-  }
-
-  .btn-primary {
-    background: var(--gold);
-    color: #0d0e13;
-    padding: 12px 28px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    text-decoration: none;
-    transition: transform 0.15s, box-shadow 0.2s;
-    box-shadow: 0 4px 24px rgba(240,192,64,0.25);
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(240,192,64,0.35);
-  }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--text);
-    padding: 12px 28px;
-    border-radius: 10px;
-    font-weight: 500;
-    font-size: 0.95rem;
-    text-decoration: none;
-    border: 1px solid var(--border-bright);
-    transition: background 0.2s, transform 0.15s;
-  }
-
-  .btn-outline:hover { background: var(--bg3); transform: translateY(-2px); }
-
-  /* PAYMENT STRIP */
-  .payment-strip {
-    position: relative;
-    z-index: 1;
-    max-width: 900px;
-    margin: 0 auto 64px;
-    padding: 0 2rem;
-  }
-
-  .payment-strip-inner {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px 28px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .payment-label {
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    text-transform: uppercase;
-    flex-shrink: 0;
-  }
-
-  .payment-methods {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .pay-chip {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 6px 14px;
-    font-size: 0.83rem;
-    font-weight: 500;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .pay-chip .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-  }
-
-  .pay-chip.ticket .dot { background: var(--blue); }
-
-  /* SECTION */
-  .section {
-    position: relative;
-    z-index: 1;
-    max-width: 1100px;
-    margin: 0 auto 80px;
-    padding: 0 2rem;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 28px;
-    gap: 12px;
-  }
-
-  .section-title {
-    font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
-    color: #fff;
-    font-weight: 600;
-  }
-
-  .section-title span { color: var(--gold); }
-
-  .section-desc {
-    font-size: 0.88rem;
-    color: var(--muted);
-    margin-top: 4px;
-    font-weight: 300;
-  }
-
-  /* RANK CARDS */
-  .ranks-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 14px;
-  }
-
-  .rank-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px 18px 20px;
-    cursor: pointer;
-    transition: border-color 0.2s, transform 0.2s, background 0.2s;
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-  }
-
-  .rank-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.3s;
-    background: radial-gradient(circle at 50% 0%, var(--card-glow, rgba(240,192,64,0.1)) 0%, transparent 70%);
-  }
-
-  .rank-card:hover { transform: translateY(-4px); border-color: var(--border-bright); }
-  .rank-card:hover::before { opacity: 1; }
-
-  .rank-card.featured {
-    border-color: var(--gold-dim);
-    background: linear-gradient(160deg, rgba(240,192,64,0.06) 0%, var(--bg2) 60%);
-  }
-
-  .rank-card .badge-featured {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: var(--gold);
-    color: #0d0e13;
-    font-size: 0.65rem;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
-    letter-spacing: 0.05em;
-  }
-
-  .rank-icon {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    display: block;
-  }
-
-  .rank-name {
-    font-family: 'Cinzel', serif;
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 8px;
-  }
-
-  .rank-price {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--gold);
-    line-height: 1;
-  }
-
-  .rank-price sup {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--muted);
-    margin-right: 2px;
-  }
-
-  .rank-duration {
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-
-  .rank-card[data-rank="knight"] { --card-glow: rgba(148,163,184,0.15); }
-  .rank-card[data-rank="lord"]   { --card-glow: rgba(74,222,128,0.12); }
-  .rank-card[data-rank="paladin"]{ --card-glow: rgba(96,165,250,0.12); }
-  .rank-card[data-rank="duke"]   { --card-glow: rgba(167,139,250,0.15); }
-  .rank-card[data-rank="king"]   { --card-glow: rgba(240,192,64,0.18); }
-
-  /* PERKS GRID */
-  .perks-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 14px;
-  }
-
-  .perk-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px 18px;
-    transition: border-color 0.2s, transform 0.2s;
-    cursor: pointer;
-  }
-
-  .perk-card:hover { transform: translateY(-3px); border-color: var(--border-bright); }
-
-  .perk-icon {
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-    display: block;
-  }
-
-  .perk-name {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 8px;
-    line-height: 1.3;
-  }
-
-  .perk-price {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--gold);
-  }
-
-  .perk-detail {
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  /* PAYMENT SECTION */
-  .pay-section {
-    position: relative;
-    z-index: 1;
-    max-width: 900px;
-    margin: 0 auto 80px;
-    padding: 0 2rem;
-  }
-
-  .pay-box {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 40px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 40px;
-    align-items: center;
-  }
-
-  @media (max-width: 640px) {
-    .pay-box { grid-template-columns: 1fr; }
-  }
-
-  .pay-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .pay-step {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
-
-  .step-num {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--gold-glow);
-    border: 1px solid var(--border-bright);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-
-  .step-content strong {
-    display: block;
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 3px;
-  }
-
-  .step-content p {
-    font-size: 0.82rem;
-    color: var(--muted);
-    line-height: 1.5;
-    font-weight: 300;
-  }
-
-  .qr-wrap {
-    text-align: center;
-  }
-
-  .qr-frame {
-    background: #fff;
-    border-radius: 12px;
-    padding: 10px;
-    display: inline-block;
-    box-shadow: 0 0 0 1px var(--border);
-  }
-
-  .qr-frame img {
-    display: block;
-    width: 160px;
-    height: 160px;
-    border-radius: 4px;
-  }
-
-  .qr-label {
-    margin-top: 10px;
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
-
-  /* FOOTER */
-  footer {
-    position: relative;
-    z-index: 1;
-    border-top: 1px solid var(--border);
-    padding: 28px 2rem;
-    text-align: center;
-  }
-
-  footer p {
-    font-size: 0.82rem;
-    color: var(--muted);
-  }
-
-  footer a { color: var(--gold); text-decoration: none; }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.55s ease, transform 0.55s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* DIVIDER */
-  .divider {
-    position: relative;
-    z-index: 1;
-    max-width: 1100px;
-    margin: 0 auto 60px;
-    padding: 0 2rem;
-  }
-
-  .divider hr {
-    border: none;
-    border-top: 1px solid var(--border);
-  }
-
-  /* TOOLTIP / hover benefit */
-  .rank-benefits {
-    display: none;
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg4);
-    border: 1px solid var(--border-bright);
-    border-radius: 10px;
-    padding: 14px 16px;
-    width: 220px;
-    z-index: 20;
-    font-size: 0.78rem;
-    color: var(--text);
-    line-height: 1.6;
-    text-align: left;
-    pointer-events: none;
-  }
-
-  .rank-card:hover .rank-benefits { display: block; }
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DaisyStore — DaisyDreams Minecraft Server</title>
+  <meta name="description" content="Support DaisyDreams Minecraft Server. Buy ranks, perks, and exclusive rewards.">
+  <meta name="theme-color" content="#1a1a2e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0f0f1a;
+      --bg-secondary: #1a1a2e;
+      --bg-card: #16213e;
+      --bg-card-hover: #1c2a4a;
+      --accent: #f0c040;
+      --accent-dark: #d4a020;
+      --accent-glow: rgba(240, 192, 64, 0.3);
+      --text-primary: #e8e8e8;
+      --text-secondary: #a0a0b0;
+      --text-muted: #6c6c80;
+      --border: rgba(240, 192, 64, 0.15);
+      --success: #4caf50;
+      --danger: #f44336;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(240, 192, 64, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(100, 100, 200, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .stars {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 4px rgba(255,255,255,0.5);
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.5); }
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: fall linear infinite;
+      opacity: 0;
+    }
+
+    .star.meteor {
+      width: 2px;
+      height: 80px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
+      border-radius: 0;
+      transform: rotate(-45deg);
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(-45deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(100vh) rotate(-45deg); opacity: 0; }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(15, 15, 26, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    nav.scrolled { background: rgba(15, 15, 26, 0.95); box-shadow: var(--shadow); }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--accent);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 1px;
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--accent); background: rgba(240, 192, 64, 0.08); }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: #1a1a2e !important;
+      font-weight: 600 !important;
+      padding: 8px 20px !important;
+    }
+
+    .nav-cta:hover { background: var(--accent-dark) !important; transform: translateY(-1px); }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(240, 192, 64, 0.1);
+      border: 1px solid rgba(240, 192, 64, 0.25);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero img {
+      height: 180px;
+      width: auto;
+      margin-bottom: 28px;
+      filter: drop-shadow(0 0 30px rgba(240, 192, 64, 0.6));
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: 20px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), #ffd700, #ffaa00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 36px;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .btn-primary, .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #1a1a2e;
+      box-shadow: 0 4px 20px rgba(240, 192, 64, 0.3);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(240, 192, 64, 0.4); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+
+    .btn-outline:hover { background: rgba(240, 192, 64, 0.08); transform: translateY(-2px); }
+
+    /* PAYMENT STRIP */
+    .payment-strip {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      margin: 0 0 80px;
+    }
+
+    .payment-strip-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .payment-label {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .payment-methods { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+    .pay-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    .pay-chip:hover { border-color: var(--accent); background: var(--bg-card-hover); }
+
+    .pay-chip .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    .pay-chip.ticket .dot { background: #ff9800; }
+
+    /* SECTIONS */
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-title span {
+      background: linear-gradient(135deg, var(--accent), #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .divider { padding: 0; margin: 0; }
+    .divider hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* RANKS GRID */
+    .ranks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .rank-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+      transition: var(--transition);
+      overflow: hidden;
+    }
+
+    .rank-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .rank-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(240, 192, 64, 0.3);
+      box-shadow: var(--shadow-lg), 0 0 40px rgba(240, 192, 64, 0.08);
+    }
+
+    .rank-card:hover::before { opacity: 1; }
+
+    .rank-card.featured {
+      border-color: rgba(240, 192, 64, 0.3);
+      background: linear-gradient(180deg, rgba(240, 192, 64, 0.05) 0%, var(--bg-card) 100%);
+    }
+
+    .badge-featured {
+      position: absolute;
+      top: 16px; right: -32px;
+      background: var(--accent);
+      color: #1a1a2e;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 6px 40px;
+      transform: rotate(45deg);
+    }
+
+    .rank-icon { margin-bottom: 16px; display: flex; justify-content: center; color: var(--accent); }
+
+    .rank-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .rank-price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .rank-price sup {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .rank-duration {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .rank-benefits {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius-sm);
+      margin-top: 12px;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .rank-card:hover .rank-benefits { opacity: 1; max-height: 200px; }
+
+    /* PERKS GRID */
+    .perks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .perk-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .perk-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(240, 192, 64, 0.25);
+      box-shadow: var(--shadow);
+    }
+
+    .perk-icon { margin-bottom: 12px; display: flex; justify-content: center; color: var(--accent); }
+
+    .perk-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .perk-price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .perk-detail {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* PAYMENT SECTION */
+    .pay-section { padding: 80px 0; }
+
+    .pay-box {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .pay-steps { display: flex; flex-direction: column; gap: 28px; }
+
+    .pay-step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 44px; height: 44px;
+      min-width: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #1a1a2e;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .step-content strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+
+    .step-content p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .qr-wrap { text-align: center; }
+
+    .qr-frame {
+      background: white;
+      padding: 16px;
+      border-radius: var(--radius);
+      display: inline-block;
+      box-shadow: var(--shadow);
+      margin-bottom: 12px;
+    }
+
+    .qr-frame img {
+      width: 240px; height: 240px;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .qr-label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    footer p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    footer a:hover { color: var(--accent-dark); }
+
+    /* REVEAL ANIMATION */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* KEYFRAMES */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .pay-box { grid-template-columns: 1fr; }
+      .qr-wrap { order: -1; }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-toggle { display: block; }
+
+      .nav-links {
+        position: fixed;
+        top: 72px; left: 0; right: 0;
+        background: rgba(15, 15, 26, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 24px;
+        gap: 8px;
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: var(--transition);
+      }
+
+      .nav-links.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .nav-links a {
+        width: 100%;
+        text-align: center;
+        padding: 12px 16px;
+      }
+
+      .hero img { height: 100px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-outline { width: 100%; justify-content: center; max-width: 300px; }
+      .ranks-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+      .perks-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .hero { padding: 100px 16px 60px; }
+      .section { padding: 60px 0; }
+      .ranks-grid { grid-template-columns: 1fr; }
+      .perks-grid { grid-template-columns: 1fr 1fr; }
+      .payment-strip-inner { gap: 12px; }
+      .pay-chip { font-size: 0.8rem; padding: 6px 14px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">DaisyStore</a>
-  <ul class="nav-links">
-    <li><a href="#ranks">Ranks</a></li>
-    <li><a href="#perks">Perks</a></li>
-    <li><a href="#payment">Payment</a></li>
-    <li><a href="https://wiki.daisydreams.xyz">Wiki</a></li>
-  </ul>
-  <a href="https://discord.gg/daisydreams" class="btn-discord" target="_blank">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-    Discord
-  </a>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <img src="https://i.imgur.com/0apESMa.png" alt="Daisy Dreams" style="height:160px;margin-bottom:20px;animation:fadeUp 0.6s ease both;">
-  <p style="font-size:0.82rem;letter-spacing:0.1em;color:var(--muted);font-weight:500;text-transform:uppercase;margin-bottom:20px;animation:fadeUp 0.6s 0.05s ease both;">Minecraft Server Store</p>
-  <h1>Unlock Your<span>Legend</span></h1>
-  <p class="hero-sub">Support the server & claim exclusive perks, ranks, and rewards.<br>Every purchase keeps DaisyDreams alive.</p>
-  <div class="hero-actions">
-    <a href="#ranks" class="btn-primary">Browse Ranks</a>
-    <a href="#payment" class="btn-outline">How to Pay</a>
-  </div>
-</section>
-
-<!-- PAYMENT STRIP -->
-<div class="payment-strip reveal">
-  <div class="payment-strip-inner">
-    <span class="payment-label">Accepts</span>
-    <div class="payment-methods">
-      <div class="pay-chip"><span class="dot"></span>Touch n Go</div>
-      <div class="pay-chip"><span class="dot"></span>QR Pay</div>
-      <div class="pay-chip ticket"><span class="dot"></span>Wise (ticket)</div>
-      <div class="pay-chip ticket"><span class="dot"></span>PayPal (ticket)</div>
-    </div>
-  </div>
-</div>
-
-<!-- RANKS -->
-<section class="section reveal" id="ranks">
-  <div class="section-header">
-    <div>
-      <h2 class="section-title">Server <span>Ranks</span></h2>
-      <p class="section-desc">All ranks are valid for 1 month • Hover to see benefits</p>
-    </div>
-  </div>
-  <div class="ranks-grid">
-
-    <div class="rank-card" data-rank="knight">
-      <span class="rank-icon">⚔️</span>
-      <div class="rank-name">Knight</div>
-      <div class="rank-price"><sup>RM</sup>20</div>
-      <div class="rank-duration">1 month</div>
-      <div class="rank-benefits">Entry rank. Basic perks, coloured tag, and access to Knight channels.</div>
-    </div>
-
-    <div class="rank-card" data-rank="lord">
-      <span class="rank-icon">🛡️</span>
-      <div class="rank-name">Lord</div>
-      <div class="rank-price"><sup>RM</sup>30</div>
-      <div class="rank-duration">1 month</div>
-      <div class="rank-benefits">All Knight perks + extra homes, Lord-tier chat prefix, exclusive cosmetics.</div>
-    </div>
-
-    <div class="rank-card featured" data-rank="paladin">
-      <div class="badge-featured">POPULAR</div>
-      <span class="rank-icon">🌟</span>
-      <div class="rank-name">Paladin</div>
-      <div class="rank-price"><sup>RM</sup>40</div>
-      <div class="rank-duration">1 month</div>
-      <div class="rank-benefits">All Lord perks + fly in safe zones, Paladin prefix, and bonus daily coins.</div>
-    </div>
-
-    <div class="rank-card" data-rank="duke">
-      <span class="rank-icon">👑</span>
-      <div class="rank-name">Duke</div>
-      <div class="rank-price"><sup>RM</sup>50</div>
-      <div class="rank-duration">1 month</div>
-      <div class="rank-benefits">All Paladin perks + larger plot, Duke title, priority queue on server restart.</div>
-    </div>
-
-    <div class="rank-card" data-rank="king">
-      <span class="rank-icon">💎</span>
-      <div class="rank-name">King</div>
-      <div class="rank-price"><sup>RM</sup>60</div>
-      <div class="rank-duration">1 month</div>
-      <div class="rank-benefits">All Duke perks + max homes, King prefix, exclusive King lounge access, priority support.</div>
-    </div>
-
-  </div>
-</section>
-
-<div class="divider reveal"><hr></div>
-
-<!-- PERKS -->
-<section class="section reveal" id="perks">
-  <div class="section-header">
-    <div>
-      <h2 class="section-title">Other <span>Perks</span></h2>
-      <p class="section-desc">One-time & time-limited boosts to enhance your gameplay</p>
-    </div>
-  </div>
-  <div class="perks-grid">
-
-    <div class="perk-card">
-      <span class="perk-icon">🚀</span>
-      <div class="perk-name">Permanent Fly Anywhere</div>
-      <div class="perk-price">RM 120</div>
-      <div class="perk-detail">Permanent • Fly in all zones</div>
-    </div>
-
-    <div class="perk-card">
-      <span class="perk-icon">🎫</span>
-      <div class="perk-name">Battlepass</div>
-      <div class="perk-price">RM 30</div>
-      <div class="perk-detail">5 weeks • Exclusive rewards</div>
-    </div>
-
-    <div class="perk-card">
-      <span class="perk-icon">🪙</span>
-      <div class="perk-name">2,000 Coins</div>
-      <div class="perk-price">RM 12</div>
-      <div class="perk-detail">Server currency</div>
-    </div>
-
-    <div class="perk-card">
-      <span class="perk-icon">🗝️</span>
-      <div class="perk-name">x25 Common Key</div>
-      <div class="perk-price">RM 12</div>
-      <div class="perk-detail">Open common crates</div>
-    </div>
-
-    <div class="perk-card">
-      <span class="perk-icon">🔑</span>
-      <div class="perk-name">x20 Rare Key</div>
-      <div class="perk-price">RM 12</div>
-      <div class="perk-detail">Open rare crates</div>
-    </div>
-
-    <div class="perk-card">
-      <span class="perk-icon">💜</span>
-      <div class="perk-name">x12 Epic Key</div>
-      <div class="perk-price">RM 12</div>
-      <div class="perk-detail">Open epic crates</div>
-    </div>
-
-    <div class="perk-card">
-      <span class="perk-icon">✨</span>
-      <div class="perk-name">x2 Spawner Key</div>
-      <div class="perk-price">RM 12</div>
-      <div class="perk-detail">Open spawner crates</div>
-    </div>
-
-  </div>
-</section>
-
-<div class="divider reveal"><hr></div>
-
-<!-- PAYMENT HOW-TO -->
-<section class="pay-section reveal" id="payment">
-  <div style="margin-bottom: 28px;">
-    <h2 class="section-title">How to <span style="color: var(--gold);">Purchase</span></h2>
-    <p class="section-desc" style="margin-top:4px;">Quick and easy — done in 3 steps</p>
-  </div>
-
-  <div class="pay-box">
-    <div class="pay-steps">
-      <div class="pay-step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <strong>Scan & Pay</strong>
-          <p>Use Touch n Go, QR Pay, Wise, or PayPal. Scan the QR code or open a ticket on Discord for Wise/PayPal.</p>
-        </div>
-      </div>
-      <div class="pay-step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <strong>Open a Ticket on Discord</strong>
-          <p>Head to the DaisyDreams Discord server and open a support ticket.</p>
-        </div>
-      </div>
-      <div class="pay-step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <strong>Submit Your Details</strong>
-          <p>Provide your Minecraft username, purchase remark, and quantity. We'll process it ASAP! 💛</p>
-        </div>
-      </div>
-      <a href="https://discord.gg/daisydreams" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:8px;" target="_blank">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-        Open Discord Ticket
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <span>DaisyStore</span>
       </a>
+      <button class="mobile-toggle" onclick="toggleNav()" aria-label="Toggle menu">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#ranks">Ranks</a></li>
+        <li><a href="#perks">Perks</a></li>
+        <li><a href="#payment">Payment</a></li>
+        <li><a href="https://wiki.daisydreams.xyz" target="_blank">Wiki</a></li>
+        <li><a href="https://discord.gg/daisydreams" target="_blank" class="nav-cta">Discord</a></li>
+      </ul>
     </div>
+  </nav>
 
-    <div class="qr-wrap">
-      <div class="qr-frame">
-        <img src="https://i.imgur.com/LqKbApH.jpeg" alt="QR Payment Code">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="stars" id="stars"></div>
+    <img src="https://i.imgur.com/0apESMa.png" alt="Daisy Dreams">
+    <h1>Unlock Your <span>Legend</span></h1>
+    <p class="hero-sub">Support the server & claim exclusive perks, ranks, and rewards. Every purchase keeps DaisyDreams alive.</p>
+    <div class="hero-actions">
+      <a href="#ranks" class="btn-primary">🎮 Browse Ranks</a>
+      <a href="#payment" class="btn-outline">💳 How to Pay</a>
+    </div>
+  </section>
+
+  <!-- PAYMENT STRIP -->
+  <div class="payment-strip reveal">
+    <div class="payment-strip-inner">
+      <span class="payment-label">Accepts</span>
+      <div class="payment-methods">
+        <div class="pay-chip"><span class="dot"></span>Touch n Go</div>
+        <div class="pay-chip"><span class="dot"></span>QR Pay</div>
+        <div class="pay-chip ticket"><span class="dot"></span>Wise (ticket)</div>
+        <div class="pay-chip ticket"><span class="dot"></span>PayPal (ticket)</div>
       </div>
-      <div class="qr-label">Scan to pay</div>
     </div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <p>Made with 💛 for the DaisyDreams community &nbsp;·&nbsp; <a href="https://wiki.daisydreams.xyz">Wiki</a> &nbsp;·&nbsp; <a href="https://discord.gg/daisydreams">Discord</a></p>
-</footer>
+  <!-- RANKS -->
+  <section class="section reveal" id="ranks">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Server <span>Ranks</span></h2>
+        <p class="section-desc">All ranks are valid for 1 month — hover to see benefits</p>
+      </div>
+      <div class="ranks-grid">
 
-<script>
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 60);
-        observer.unobserve(e.target);
-      }
+        <div class="rank-card" data-rank="knight">
+          <span class="rank-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19V6a2 2 0 012-2h12a2 2 0 012 2v13"/><path d="M9 22V16h6v6"/><path d="M8 6l4-4 4 4"/><line x1="12" y1="2" x2="12" y2="11"/></svg></span>
+          <div class="rank-name">Knight</div>
+          <div class="rank-price"><sup>RM</sup>20</div>
+          <div class="rank-duration">1 month</div>
+          <div class="rank-benefits">Full perks available in-game</div>
+        </div>
+
+        <div class="rank-card" data-rank="lord">
+          <span class="rank-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <div class="rank-name">Lord</div>
+          <div class="rank-price"><sup>RM</sup>30</div>
+          <div class="rank-duration">1 month</div>
+          <div class="rank-benefits">Full perks available in-game</div>
+        </div>
+
+        <div class="rank-card featured" data-rank="paladin">
+          <div class="badge-featured">POPULAR</div>
+          <span class="rank-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg></span>
+          <div class="rank-name">Paladin</div>
+          <div class="rank-price"><sup>RM</sup>40</div>
+          <div class="rank-duration">1 month</div>
+          <div class="rank-benefits">Full perks available in-game</div>
+        </div>
+
+        <div class="rank-card" data-rank="duke">
+          <span class="rank-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21V13h6v8"/><path d="M7 10h10"/></svg></span>
+          <div class="rank-name">Duke</div>
+          <div class="rank-price"><sup>RM</sup>50</div>
+          <div class="rank-duration">1 month</div>
+          <div class="rank-benefits">Full perks available in-game</div>
+        </div>
+
+        <div class="rank-card" data-rank="king">
+          <span class="rank-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 20l1-7 4 4 3-8 3 8 4-4 1 7"/><path d="M4 22h16"/></svg></span>
+          <div class="rank-name">King</div>
+          <div class="rank-price"><sup>RM</sup>60</div>
+          <div class="rank-duration">1 month</div>
+          <div class="rank-benefits">Full perks available in-game</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider reveal"><hr></div>
+
+  <!-- PERKS -->
+  <section class="section reveal" id="perks">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Other <span>Perks</span></h2>
+        <p class="section-desc">One-time & time-limited boosts to enhance your gameplay</p>
+      </div>
+      <div class="perks-grid">
+
+        <div class="perk-card">
+          <span class="perk-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/><path d="M4 21h16"/></svg></span>
+          <div class="perk-name">Permanent Fly Anywhere</div>
+          <div class="perk-price">RM 120</div>
+          <div class="perk-detail">Permanent • Fly in all zones</div>
+        </div>
+
+        <div class="perk-card">
+          <span class="perk-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12l3 3 5-6"/></svg></span>
+          <div class="perk-name">Battlepass</div>
+          <div class="perk-price">RM 30</div>
+          <div class="perk-detail">5 weeks • Exclusive rewards</div>
+        </div>
+
+        <div class="perk-card">
+          <span class="perk-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></span>
+          <div class="perk-name">2,000 Coins</div>
+          <div class="perk-price">RM 12</div>
+          <div class="perk-detail">Server currency</div>
+        </div>
+
+        <div class="perk-card">
+          <span class="perk-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M7 11V9a5 5 0 0110 0v2"/></svg></span>
+          <div class="perk-name">x25 Common Key</div>
+          <div class="perk-price">RM 12</div>
+          <div class="perk-detail">Open common crates</div>
+        </div>
+
+        <div class="perk-card">
+          <span class="perk-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M7 11V8a5 5 0 0110 0v3"/><circle cx="12" cy="16" r="1.5" fill="currentColor"/></svg></span>
+          <div class="perk-name">x20 Rare Key</div>
+          <div class="perk-price">RM 12</div>
+          <div class="perk-detail">Open rare crates</div>
+        </div>
+
+        <div class="perk-card">
+          <span class="perk-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M7 11V7a5 5 0 0110 0v4"/><path d="M12 16l-2 2h4l-2-2z"/></svg></span>
+          <div class="perk-name">x12 Epic Key</div>
+          <div class="perk-price">RM 12</div>
+          <div class="perk-detail">Open epic crates</div>
+        </div>
+
+        <div class="perk-card">
+          <span class="perk-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
+          <div class="perk-name">x2 Spawner Key</div>
+          <div class="perk-price">RM 12</div>
+          <div class="perk-detail">Open spawner crates</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider reveal"><hr></div>
+
+  <!-- PAYMENT -->
+  <section class="pay-section reveal" id="payment">
+    <div class="container">
+      <div style="margin-bottom: 40px; text-align: center;">
+        <h2 class="section-title">How to <span style="color: var(--accent);">Purchase</span></h2>
+        <p class="section-desc" style="margin-top: 8px;">Quick and easy — done in 3 steps</p>
+      </div>
+
+      <div class="pay-box">
+        <div class="pay-steps">
+          <div class="pay-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <strong>Scan & Pay</strong>
+              <p>Use Touch n Go, QR Pay, Wise, or PayPal. Scan the QR code or open a ticket on Discord for Wise/PayPal.</p>
+            </div>
+          </div>
+          <div class="pay-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <strong>Open a Ticket on Discord</strong>
+              <p>Head to the DaisyDreams Discord server and open a support ticket.</p>
+            </div>
+          </div>
+          <div class="pay-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>Submit Your Details</strong>
+              <p>Provide your Minecraft username, purchase remark, and quantity. We'll process it ASAP! 💛</p>
+            </div>
+          </div>
+          <a href="https://discord.gg/daisydreams" target="_blank" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;margin-top:8px;width:auto;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+            Open Discord Ticket
+          </a>
+        </div>
+
+        <div class="qr-wrap">
+          <div class="qr-frame">
+            <img src="https://i.imgur.com/LqKbApH.jpeg" alt="QR Payment Code">
+          </div>
+          <div class="qr-label">Scan to pay via QR</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>Made with 💛 for the DaisyDreams community · <a href="https://wiki.daisydreams.xyz" target="_blank">Wiki</a> · <a href="https://discord.gg/daisydreams" target="_blank">Discord</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Force scroll to top on refresh/load
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.onload = function() {
+      window.scrollTo(0, 0);
+    };
+
+    // Stars twinkle effect
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      const size = Math.random() * 2 + 0.5;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+      star.style.animationDelay = (Math.random() * 3) + 's';
+      starsContainer.appendChild(star);
+    }
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 60);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Nav scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
     });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => observer.observe(el));
-</script>
+
+    // Mobile nav toggle
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    // Close mobile nav on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+  </script>
 </body>
 </html>
